@@ -25,7 +25,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    debpackage.cpp \
+    debcontrolfile.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    debpackage.h \
+    debcontrolfile.h
+
+RESOURCES += \
+    res.qrc
