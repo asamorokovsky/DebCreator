@@ -11,6 +11,7 @@
 #include <QProcess>
 #include <QMessageBox>
 #include <QGroupBox>
+#include <QScrollArea>
 
 #include <QRegExp>
 #include <QRegExpValidator>
@@ -44,63 +45,60 @@ private:
     // First tab widgets
     QWidget *firstTab_Widget;
     QLineEdit *firstTab_filePath;
+    QLineEdit *firstTab_additionalFilesLE;
+    QLineEdit *firstTab_installationPathLE;
+
     QPushButton *firstTab_filePathSelectBtn;
+    QPushButton *firstTab_additionalFileSelectBtn;
+    QPushButton *firstTab_additionalFileClearBtn;
     QPushButton *firstTab_quitBtn;
     QPushButton *firstTab_nextBtn;
 
     // Second tab widgets
     QWidget *secondTab_Widget;
-    QLineEdit *secondTab_additionalFilesLE;
-    QPushButton *secondTab_additionalFileSelectBtn;
+    QLineEdit *secondTab_controlFile;
 
+    QGroupBox *secondTab_controlFileGB;
+    QLineEdit *secondTab_control_packageLE;
+    QLineEdit *secondTab_control_versionLE;
+    QLineEdit *secondTab_control_priorityLE;
+    QLineEdit *secondTab_control_sectionLE;
+    QTextEdit *secondTab_control_maintainerTE;
+    QLineEdit *secondTab_control_installed_sizeLE;
+    QTextEdit *secondTab_control_dependsTE;
+    QTextEdit *secondTab_control_suggestsTE;
+    QTextEdit *secondTab_control_conflictsTE;
+    QTextEdit *secondTab_control_descriptionTE;
+
+    QPushButton *secondTab_selectControlFileBtn;
+    QPushButton *secondTab_clearControlFileBtn;
     QPushButton *secondTab_backBtn;
     QPushButton *secondTab_nextBtn;
 
-    // Thirtd tab widgets
+    // Third tab widgets
     QWidget *thirdTab_Widget;
-    QLineEdit *thirdTab_controlFile;
+    QLineEdit *thirdTab_preinstFilePathLE;
+    QLineEdit *thirdTab_postinstFilePathLE;
+    QLineEdit *thirdTab_prermFilePathLE;
+    QLineEdit *thirdTab_postrmFilePathLE;
+    QLineEdit *thirdTab_menusFilePathLE;
+    QLineEdit *thirdTab_changelogFilePathLE;
 
-    QGroupBox *thirdTab_controlFileGB;
-    QLineEdit *thirdTab_control_packageLE;
-    QLineEdit *thirdTab_control_versionLE;
-    QLineEdit *thirdTab_control_priorityLE;
-    QLineEdit *thirdTab_control_sectionLE;
-    QTextEdit *thirdTab_control_maintainerTE;
-    QLineEdit *thirdTab_control_installed_sizeLE;
-    QTextEdit *thirdTab_control_dependsTE;
-    QTextEdit *thirdTab_control_suggestsTE;
-    QTextEdit *thirdTab_control_conflictsTE;
-    QTextEdit *thirdTab_control_descriptionTE;
+    QPushButton *thirdTab_preinstFileSelectBtn;
+    QPushButton *thirdTab_postinstFileSelectBtn;
+    QPushButton *thirdTab_prermFileSelectBtn;
+    QPushButton *thirdTab_postrmFileSelectBtn;
+    QPushButton *thirdTab_menusFileSelectBtn;
+    QPushButton *thirdTab_changelogFileSelectBtn;
+    QPushButton *thirdTab_preinstFileClearBtn;
+    QPushButton *thirdTab_postinstFileClearBtn;
+    QPushButton *thirdTab_prermFileClearBtn;
+    QPushButton *thirdTab_postrmFileClearBtn;
+    QPushButton *thirdTab_menusFileClearBtn;
+    QPushButton *thirdTab_changelogFileClearBtn;
 
-    QPushButton *thirdTab_selectControlFileBtn;
-    QPushButton *thirdTab_clearControlFileBtn;
     QPushButton *thirdTab_backBtn;
     QPushButton *thirdTab_nextBtn;
-
-    // Fourth tab widgets
-    QWidget *fourthTab_Widget;
-    QLineEdit *fourthTab_preinstFilePathLE;
-    QLineEdit *fourthTab_postinstFilePathLE;
-    QLineEdit *fourthTab_prermFilePathLE;
-    QLineEdit *fourthTab_postrmFilePathLE;
-    QLineEdit *foruthTab_menusFilePathLE;
-    QLineEdit *foruthTab_changelogFilePathLE;
-
-    QPushButton *fourthTab_preinstFileSelectBtn;
-    QPushButton *fourthTab_postinstFileSelectBtn;
-    QPushButton *fourthTab_prermFileSelectBtn;
-    QPushButton *fourthTab_postrmFileSelectBtn;
-    QPushButton *foruthTab_menusFileSelectBtn;
-    QPushButton *foruthTab_changelogFileSelectBtn;
-    QPushButton *fourthTab_preinstFileClearBtn;
-    QPushButton *fourthTab_postinstFileClearBtn;
-    QPushButton *fourthTab_prermFileClearBtn;
-    QPushButton *fourthTab_postrmFileClearBtn;
-    QPushButton *foruthTab_menusFileClearBtn;
-    QPushButton *foruthTab_changelogFileClearBtn;
-
-    QPushButton *fourthTab_backBtn;
-    QPushButton *fourthTab_nextBtn;
 
 
 
@@ -113,27 +111,22 @@ private:
 private slots:
     // First tab slots
     void slot_firstTab_filePathSelectBtn_clicked();
+    void slot_firstTab_additionalFileSelectBtn_clicked();
     void slot_firstTab_quitBtn_clicked();
     void slot_firstTab_nextBtn_clicked();
 
     // Second tab slots
-
-    void slot_secondTab_additionalFileSelectBtn_clicked();
     void slot_secondTab_backBtn_clicked();
     void slot_secondTab_nextBtn_clicked();
 
     // Third tab slots
+    void slot_thirdTab_preinstFileSelectBtn_clicked();
+    void slot_thirdTab_postinstFileSelectBtn_clicked();
+    void slot_thirdTab_prermFileSelectBtn_clicked();
+    void slot_thirdTab_postrmFileSelectBtn_clicked();
+
     void slot_thirdTab_backBtn_clicked();
     void slot_thirdTab_nextBtn_clicked();
-
-    // Fourth tab slots
-    void slot_fourthTab_preinstFileSelectBtn_clicked();
-    void slot_fourthTab_postinstFileSelectBtn_clicked();
-    void slot_fourthTab_prermFileSelectBtn_clicked();
-    void slot_fourthTab_postrmFileSelectBtn_clicked();
-
-    void slot_fourthTab_backBtn_clicked();
-    void slot_fourthTab_nextBtn_clicked();
 
 
 };
