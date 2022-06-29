@@ -1,23 +1,5 @@
 #include "mainwindow.h"
 
-Package::Package(QString name, QString version)
-{
-    _name = name;
-    _version = version;
-}
-
-QString Package::getName()
-{
-    return _name.trimmed();
-}
-
-QString Package::getVersion()
-{
-    return _version.trimmed();
-}
-
-
-
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
     createUI();
@@ -66,6 +48,7 @@ void MainWindow::createUI()
         installPathLayout->setAlignment(Qt::AlignTop);
         installPathLayout->addWidget(new QLabel(tr("3. Please enter installation path:")));
         this->firstTab_installationPathLE = new QLineEdit(tr(""));
+        this->firstTab_installationPathLE->setValidator(new QRegExpValidator(QRegExp("/[a-zA-Z0-9-/()]+"), this));
         installPathLayout->addWidget(this->firstTab_installationPathLE);
 
         widgetLayout->addLayout(installPathLayout);
@@ -142,16 +125,16 @@ void MainWindow::createUI()
         this->secondTab_control_conflictsTE = new QTextEdit(tr(""));
         this->secondTab_control_descriptionTE = new QTextEdit(tr(""));
 
-        controlFileGBLayout->addWidget(this->secondTab_control_packageLE, 0, 1);
-        controlFileGBLayout->addWidget(this->secondTab_control_versionLE, 1, 1);
-        controlFileGBLayout->addWidget(this->secondTab_control_priorityLE, 2, 1);
-        controlFileGBLayout->addWidget(this->secondTab_control_sectionLE, 3, 1);
-        controlFileGBLayout->addWidget(this->secondTab_control_maintainerTE, 4, 1);
-        controlFileGBLayout->addWidget(this->secondTab_control_installed_sizeLE, 5, 1);
-        controlFileGBLayout->addWidget(this->secondTab_control_dependsTE, 6, 1);
-        controlFileGBLayout->addWidget(this->secondTab_control_suggestsTE, 7, 1);
-        controlFileGBLayout->addWidget(this->secondTab_control_conflictsTE, 8, 1);
-        controlFileGBLayout->addWidget(this->secondTab_control_descriptionTE, 9, 1);
+        controlFileGBLayout->addWidget(this->secondTab_control_packageLE, 0, 1, Qt::AlignTop);
+        controlFileGBLayout->addWidget(this->secondTab_control_versionLE, 1, 1, Qt::AlignTop);
+        controlFileGBLayout->addWidget(this->secondTab_control_priorityLE, 2, 1, Qt::AlignTop);
+        controlFileGBLayout->addWidget(this->secondTab_control_sectionLE, 3, 1, Qt::AlignTop);
+        controlFileGBLayout->addWidget(this->secondTab_control_maintainerTE, 4, 1, Qt::AlignTop);
+        controlFileGBLayout->addWidget(this->secondTab_control_installed_sizeLE, 5, 1, Qt::AlignTop);
+        controlFileGBLayout->addWidget(this->secondTab_control_dependsTE, 6, 1, Qt::AlignTop);
+        controlFileGBLayout->addWidget(this->secondTab_control_suggestsTE, 7, 1, Qt::AlignTop);
+        controlFileGBLayout->addWidget(this->secondTab_control_conflictsTE, 8, 1, Qt::AlignTop);
+        controlFileGBLayout->addWidget(this->secondTab_control_descriptionTE, 9, 1, Qt::AlignTop);
 
         scrollArea->setWidget(this->secondTab_controlFileGB);
 
@@ -171,7 +154,7 @@ void MainWindow::createUI()
     // DEB/scripts tab
     {
         this->thirdTab_Widget = new QWidget();
-        this->mainWidget->addTab(this->thirdTab_Widget, tr("4. DEB/other"));
+        this->mainWidget->addTab(this->thirdTab_Widget, tr("3. DEB/other"));
 
         QVBoxLayout *widgetLayout = new QVBoxLayout(this->thirdTab_Widget);
         QGridLayout *centralLayout = new QGridLayout();
@@ -267,6 +250,7 @@ void MainWindow::connectUI()
     connect(this->firstTab_nextBtn, &QPushButton::clicked, this, &MainWindow::slot_firstTab_nextBtn_clicked);
 
     // Connect second tab widgets to their slots
+    connect(this->secondTab_selectControlFileBtn, &QPushButton::clicked, this, &MainWindow::slot_secondTab_selectControlFileBtn_clicked);
     connect(this->secondTab_backBtn, &QPushButton::clicked, this, &MainWindow::slot_secondTab_backBtn_clicked);
     connect(this->secondTab_nextBtn, &QPushButton::clicked, this, &MainWindow::slot_secondTab_nextBtn_clicked);
 
@@ -295,9 +279,9 @@ bool MainWindow::isFileElf(QString filePath)
 }
 
 // This function creates a list of dependencies for the selected binary executable file.
-QList<Package> MainWindow::getDependnciesForElf(QString filePath)
+QList<LibraryPackage> MainWindow::getDependnciesForElf(QString filePath)
 {
-    QList<Package> packages;
+    QList<LibraryPackage> packages;
 
     QProcess process;
     QStringList args;
@@ -339,7 +323,7 @@ QList<Package> MainWindow::getDependnciesForElf(QString filePath)
             packageName = packageName.mid(0, packageName.indexOf(":"));
 
             bool isPackageInList = false;
-            foreach (Package currentPackage, packages) {
+            foreach (LibraryPackage currentPackage, packages) {
                 if (currentPackage.getName() == packageName) {
                     isPackageInList = true;
                     break;
@@ -365,7 +349,7 @@ QList<Package> MainWindow::getDependnciesForElf(QString filePath)
                         break;
                     }
                 }
-                packages.append(Package(packageName, packageVersion));
+                packages.append(LibraryPackage(packageName, packageVersion));
             }
         }
     }
@@ -403,7 +387,7 @@ void MainWindow::slot_firstTab_quitBtn_clicked()
 
 void MainWindow::slot_firstTab_nextBtn_clicked()
 {
-    if (this->firstTab_filePath->text().trimmed().isEmpty())
+    if (this->firstTab_filePath->text().trimmed().isEmpty() && this->firstTab_installationPathLE->text().trimmed().isEmpty())
         return;
 
     this->mainWidget->setCurrentIndex(this->mainWidget->indexOf(this->secondTab_Widget));
@@ -427,7 +411,65 @@ void MainWindow::slot_secondTab_nextBtn_clicked()
 
 }
 */
+
 // Second tab slots
+void MainWindow::slot_secondTab_selectControlFileBtn_clicked()
+{
+    QString filter = "control";
+    QString selectedFile = QFileDialog::getOpenFileName(this, tr("Select file"), QString(), QString(), &filter);
+    if (selectedFile.isEmpty())
+        return;
+
+    this->secondTab_controlFile->setText(selectedFile);
+
+
+    QPair<bool, DebControlFile*> result = DebControlFile::fromFile(this->secondTab_controlFile->text().trimmed());
+    if (result.first) {
+        DebControlFile *controlFile = result.second;
+
+        this->secondTab_control_packageLE->setText(controlFile->getPackage());
+        this->secondTab_control_versionLE->setText(controlFile->getVersion());
+        this->secondTab_control_priorityLE->setText(controlFile->getPriority());
+        this->secondTab_control_sectionLE->setText(controlFile->getSection());
+        this->secondTab_control_maintainerTE->setText(controlFile->getMaintainer());
+        this->secondTab_control_installed_sizeLE->setText(QString::number(controlFile->getInstalledSize()));
+
+        QList<LibraryPackage> dependPackages = controlFile->getDependPackages();
+        for (int currentIndex = 0; currentIndex < dependPackages.size(); currentIndex++) {
+            LibraryPackage libPackage = dependPackages.at(currentIndex);
+            QString strToInsert = libPackage.getName();
+            if (!libPackage.getVersion().isEmpty())
+                strToInsert.append(QString(" (%1)").arg(libPackage.getVersion()));
+            if (currentIndex != dependPackages.size()-1)
+                strToInsert.append(", ");
+            this->secondTab_control_dependsTE->insertPlainText(strToInsert);
+        }
+
+        QList<LibraryPackage> suggestsPackages = controlFile->getSuggestPackages();
+        for (int currentIndex = 0; currentIndex < suggestsPackages.size(); currentIndex++) {
+            LibraryPackage libPackage = dependPackages.at(currentIndex);
+            QString strToInsert = libPackage.getName();
+            if (!libPackage.getVersion().isEmpty())
+                strToInsert.append(QString(" (%1)").arg(libPackage.getVersion()));
+            if (currentIndex != suggestsPackages.size()-1)
+                strToInsert.append(", ");
+            this->secondTab_control_suggestsTE->insertPlainText(strToInsert);
+        }
+
+        QList<LibraryPackage> conflictPackages = controlFile->getConflictPackages();
+        for (int currentIndex = 0; currentIndex < conflictPackages.size(); currentIndex++) {
+            LibraryPackage libPackage = conflictPackages.at(currentIndex);
+            QString strToInsert = libPackage.getName();
+            if (!libPackage.getVersion().isEmpty())
+                strToInsert.append(QString(" (%1)").arg(libPackage.getVersion()));
+            if (currentIndex != conflictPackages.size()-1)
+                strToInsert.append(", ");
+            this->secondTab_control_conflictsTE->insertPlainText(strToInsert);
+        }
+        this->secondTab_control_descriptionTE->setText(controlFile->getDescription());
+    }
+}
+
 void MainWindow::slot_secondTab_backBtn_clicked()
 {
     this->mainWidget->setCurrentIndex(this->mainWidget->indexOf(this->secondTab_Widget));

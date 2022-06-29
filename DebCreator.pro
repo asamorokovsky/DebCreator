@@ -27,12 +27,14 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     debpackage.cpp \
-    debcontrolfile.cpp
+    debcontrolfile.cpp \
+    librarypackage.cpp
 
 HEADERS += \
         mainwindow.h \
     debpackage.h \
-    debcontrolfile.h
+    debcontrolfile.h \
+    librarypackage.h
 
 RESOURCES += \
     res.qrc

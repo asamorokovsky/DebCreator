@@ -18,19 +18,8 @@
 
 #include <QDebug>
 
-
-class Package {
-
-public:
-    Package(QString name, QString version);
-
-    QString getName();
-    QString getVersion();
-
-private:
-    QString _name;
-    QString _version;
-};
+#include "debcontrolfile.h"
+#include "librarypackage.h"
 
 class MainWindow : public QMainWindow
 {
@@ -100,13 +89,11 @@ private:
     QPushButton *thirdTab_backBtn;
     QPushButton *thirdTab_nextBtn;
 
-
-
     void createUI();
     void connectUI();
 
     bool isFileElf(QString filePath);
-    QList<Package> getDependnciesForElf(QString filePath);
+    QList<LibraryPackage> getDependnciesForElf(QString filePath);
 
 private slots:
     // First tab slots
@@ -116,6 +103,7 @@ private slots:
     void slot_firstTab_nextBtn_clicked();
 
     // Second tab slots
+    void slot_secondTab_selectControlFileBtn_clicked();
     void slot_secondTab_backBtn_clicked();
     void slot_secondTab_nextBtn_clicked();
 
