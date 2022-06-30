@@ -223,25 +223,32 @@ QString DebControlFile::getHomepage()
     return _homepage;
 }
 
-QList<LibraryPackage> getLibraryPackageByFieldInString(QString field, QString searchString)
+QList<LibraryPackage> DebControlFile::getLibraryPackagesByFieldInString(QString field, QString searchString)
 {
     QList<LibraryPackage> libsResult;
     if (searchString.startsWith(field)) {
-        QStringList libs = searchString.remove(field).trimmed().split(",");
+        libsResult = getLibraryPackagesInString(searchString.remove(field).trimmed());
+    }
+    return libsResult;
+}
 
-        foreach(QString currentLib, libs) {
-            QString libName, libVersion;
+QList<LibraryPackage> DebControlFile::getLibraryPackagesInString(QString searchString)
+{
+    QList<LibraryPackage> libsResult;
+    QStringList libs = searchString.trimmed().split(",");
 
-            QRegExp reLibName("[^\\(\\)]+(?=)");
-            if (reLibName.indexIn(currentLib) != -1)
-                libName= reLibName.capturedTexts().first().trimmed();
+    foreach(QString currentLib, libs) {
+        QString libName, libVersion;
 
-            QRegExp reLibVersion("[^(\\)]+(?=\\))");
-            if (reLibVersion.indexIn(currentLib) != -1)
-                libVersion = reLibVersion.capturedTexts().first();
+        QRegExp reLibName("[^\\(\\)]+(?=)");
+        if (reLibName.indexIn(currentLib) != -1)
+            libName= reLibName.capturedTexts().first().trimmed();
 
-            libsResult.append(LibraryPackage(libName, libVersion));
-        }
+        QRegExp reLibVersion("[^(\\)]+(?=\\))");
+        if (reLibVersion.indexIn(currentLib) != -1)
+            libVersion = reLibVersion.capturedTexts().first();
+
+        libsResult.append(LibraryPackage(libName, libVersion));
     }
     return libsResult;
 }
@@ -311,31 +318,31 @@ QPair<bool, DebControlFile*> DebControlFile::fromFile(QString filePath)
             result->setSource(currentString.remove("Source:").trimmed());
 
         if (currentString.startsWith("Depends:"))
-            result->setDepends(getLibraryPackageByFieldInString("Depends:", currentString));
+            result->setDepends(getLibraryPackagesByFieldInString("Depends:", currentString));
 
         if (currentString.startsWith("Pre-Depends:"))
-            result->setPreDepends(getLibraryPackageByFieldInString("Pre-Depends:", currentString));
+            result->setPreDepends(getLibraryPackagesByFieldInString("Pre-Depends:", currentString));
 
         if (currentString.startsWith("Recommends:"))
-            result->setRecommends(getLibraryPackageByFieldInString("Recommends:", currentString));
+            result->setRecommends(getLibraryPackagesByFieldInString("Recommends:", currentString));
 
         if (currentString.startsWith("Suggests:"))
-            result->setSuggests(getLibraryPackageByFieldInString("Suggests:", currentString));
+            result->setSuggests(getLibraryPackagesByFieldInString("Suggests:", currentString));
 
         if (currentString.startsWith("Breaks:"))
-            result->setBreaks(getLibraryPackageByFieldInString("Breaks:", currentString));
+            result->setBreaks(getLibraryPackagesByFieldInString("Breaks:", currentString));
 
         if (currentString.startsWith("Conflicts:"))
-            result->setConflicts(getLibraryPackageByFieldInString("Conflicts:", currentString));
+            result->setConflicts(getLibraryPackagesByFieldInString("Conflicts:", currentString));
 
         if (currentString.startsWith("Replaces:"))
-            result->setReplaces(getLibraryPackageByFieldInString("Replaces:", currentString));
+            result->setReplaces(getLibraryPackagesByFieldInString("Replaces:", currentString));
 
         if (currentString.startsWith("Provides:"))
-            result->setProvides(getLibraryPackageByFieldInString("Provides:", currentString));
+            result->setProvides(getLibraryPackagesByFieldInString("Provides:", currentString));
 
         if (currentString.startsWith("Built-Using:"))
-            result->setBuiltUsing(getLibraryPackageByFieldInString("Built-Using:", currentString));
+            result->setBuiltUsing(getLibraryPackagesByFieldInString("Built-Using:", currentString));
 
         if (currentString.startsWith("Installed-Size:"))
             result->setInstalledSize(currentString.remove("Installed-Size:").trimmed().toULong());

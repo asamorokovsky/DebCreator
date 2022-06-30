@@ -146,7 +146,7 @@ void MainWindow::createUI()
         this->secondTab_control_conflictsTE = new QTextEdit(tr(""));
         this->secondTab_control_replacesTE = new QTextEdit(tr(""));
         this->secondTab_control_providesTE = new QTextEdit(tr(""));
-        this->secondTab_control__builtUsingTE = new QTextEdit(tr(""));
+        this->secondTab_control_builtUsingTE = new QTextEdit(tr(""));
 
         this->secondTab_control_installedSizeLE = new QLineEdit(tr(""));
         this->secondTab_control_installedSizeLE->setValidator(new QRegExpValidator(QRegExp("[0-9]+"), this));
@@ -171,7 +171,7 @@ void MainWindow::createUI()
         controlFileGBLayout->addWidget(this->secondTab_control_conflictsTE, 14, 1, Qt::AlignTop);
         controlFileGBLayout->addWidget(this->secondTab_control_replacesTE, 15, 1, Qt::AlignTop);
         controlFileGBLayout->addWidget(this->secondTab_control_providesTE, 16, 1, Qt::AlignTop);
-        controlFileGBLayout->addWidget(this->secondTab_control__builtUsingTE, 17, 1, Qt::AlignTop);
+        controlFileGBLayout->addWidget(this->secondTab_control_builtUsingTE, 17, 1, Qt::AlignTop);
         controlFileGBLayout->addWidget(this->secondTab_control_installedSizeLE, 18, 1, Qt::AlignTop);
         controlFileGBLayout->addWidget(this->secondTab_control_homepageLE, 19, 1, Qt::AlignTop);
 
@@ -441,13 +441,7 @@ void MainWindow::slot_secondTab_nextBtn_clicked()
         return;
     if (this->secondTab_control_versionLE->text().trimmed().isEmpty())
         return;
-    this->secondTab_control_priorityCB->clear();
-    this->secondTab_control_sectionLE->clear();
-    this->secondTab_control_maintainerLE->clear();
-    this->secondTab_control_installedSizeLE->clear();
-    this->secondTab_control_dependsTE->clear();
-    this->secondTab_control_suggestsTE->clear();
-    this->secondTab_control_descriptionTE->clear();
+
     this->mainWidget->setCurrentIndex(this->mainWidget->indexOf(this->thirdTab_Widget));
 }
 
@@ -543,5 +537,80 @@ void MainWindow::slot_thirdTab_backBtn_clicked()
 
 void MainWindow::slot_thirdTab_nextBtn_clicked()
 {
+    DebControlFile controlFile;
+
+    controlFile.setPackage(this->secondTab_control_packageLE->text().trimmed());
+    controlFile.setVersion(this->secondTab_control_versionLE->text().trimmed());
+    controlFile.setAarchitecture(this->secondTab_control_architectureLE->text().trimmed());
+    controlFile.setMaintainer(this->secondTab_control_maintainerLE->text().trimmed());
+    controlFile.setDescription(this->secondTab_control_descriptionTE->toPlainText().trimmed());
+
+    controlFile.setSection(this->secondTab_control_sectionLE->text().trimmed());
+    controlFile.setPriority(static_cast<Priority>(this->secondTab_control_priorityCB->currentIndex()));
+
+    controlFile.setEssential(this->econdTab_control_essentialCB->isChecked());
+    controlFile.setSource(this->secondTab_control_sourceLE->text().trimmed());
+    controlFile.setDepends(DebControlFile::getLibraryPackagesInString(this->secondTab_control_dependsTE->toPlainText()));
+    controlFile.setPreDepends(DebControlFile::getLibraryPackagesInString(this->secondTab_control_pre_dependsTE->toPlainText()));
+    controlFile.setRecommends(DebControlFile::getLibraryPackagesInString(this->secondTab_control_recommendsTE->toPlainText()));
+    controlFile.setSuggests(DebControlFile::getLibraryPackagesInString(this->secondTab_control_suggestsTE->toPlainText()));
+    controlFile.setBreaks(DebControlFile::getLibraryPackagesInString(this->secondTab_control_breaksTE->toPlainText()));
+    controlFile.setConflicts(DebControlFile::getLibraryPackagesInString(this->secondTab_control_conflictsTE->toPlainText()));
+    controlFile.setReplaces(DebControlFile::getLibraryPackagesInString(this->secondTab_control_replacesTE->toPlainText()));
+    controlFile.setProvides(DebControlFile::getLibraryPackagesInString(this->secondTab_control_providesTE->toPlainText()));
+    controlFile.setBuiltUsing(DebControlFile::getLibraryPackagesInString(this->secondTab_control_builtUsingTE->toPlainText()));
+    controlFile.setInstalledSize(this->secondTab_control_installedSizeLE->text().trimmed().toULong());
+    controlFile.setHomepage(this->secondTab_control_homepageLE->text().trimmed());
+
+
+    if (controlFile.getPackage().isEmpty() || controlFile.getVersion().isEmpty() || controlFile.getArchitecture().isEmpty())
+        return;
+
+    DebPackage package;
+    package.setControlFileData(controlFile);
+    package.setExecutableBinaryFilePath(this->firstTab_filePath->text().trimmed());
+    package.setInstallationPath(this->firstTab_installationPathLE->text().trimmed());
+
+    // Create package folder
+    if (!QDir().mkpath(package.getPackagePath()))
+        return; // Create packagePath error, exit.
+
+    if (package.getInstallationPath().isEmpty())
+        package.setInstallationPath(QString("/var/%1").arg(controlFile.getPackage())); // Installation path must not be empty!
+
+    if (!QDir().mkpath(QString("%1/%2").arg(package.getPackagePath(), package.getInstallationPath())))
+        return; // Create packagePath/installation error, exit.
+
+    if (package.getExecutableBinaryFilePath().isEmpty())
+        return; // Executable binary file is empty!
+
+    if (!QFile(package.getExecutableBinaryFilePath()).exists())
+        return; // Executable binary file does not exists!
+
+    // Copy executable binary file to packagePath/installation
+    if (!QFile::copy(package.getExecutableBinaryFilePath(), QString("%1/%2/%3").arg(package.getPackagePath(), package.getInstallationPath(), QFileInfo(package.getExecutableBinaryFilePath()).fileName())))
+        return; // Copy error
+
+    // Create DEBIAN dir
+    if (!QDir().mkpath(QString("%1/DEBIAN").arg(package.getPackagePath())))
+        return; // Create DEBIAN folder error, exit.
+
+    // Create compat file
+    QFile compatFile(QString("%1/DEBIAN/compat").arg(package.getPackagePath()));
+    if (!compatFile.open(QIODevice::WriteOnly))
+        return; // Cannot create DEBIAN/compat file.
+
+    QTextStream compatStram(&compatFile);
+    compatStram.setCodec("UTF-8");
+    compatStram<<QString::number(10);
+
+    compatFile.close();
+
+
+
+
+
+
+
 
 }

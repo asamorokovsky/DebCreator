@@ -10,12 +10,38 @@ class DebPackage
 {
 public:
     DebPackage();
-private:
-    QString name;
-    QString version;
 
+    void setExecutableBinaryFilePath(QString filePath);
+    void setAdditionalFilesPath(QStringList files);
+
+    void setInstallationPath(QString path);
+
+    void setControlFileData(DebControlFile file);
+
+    void setPreinstScriptPath(QString filePath);
+    void setPostinstScriptPath(QString filePath);
+    void setPermScriptPath(QString filePath);
+    void setPostrmScriptPath(QString filePath);
+
+    QString getExecutableBinaryFilePath();
+    QStringList getAdditionalFilesPath();
+
+    QString getInstallationPath();
+
+    DebControlFile getControlFileData();
+
+    QString getPreinstScriptPath();
+    QString getPostinstScriptPath();
+    QString getPermScriptPath();
+    QString getPostrmScriptPath();
+
+    QString getPackagePath();
+
+private:
     QString executableBinaryFilePath;
     QStringList additionalFilesPath;
+
+    QString installationPath;
 
     DebControlFile controlFileData;
 
@@ -24,6 +50,12 @@ private:
     QString postinstScriptPath;
     QString prermScriptPath;
     QString postrmScriptPath;
+
+    QString packagePath;
+
+
+
+    void setPackagePath(QString path);
 };
 
 #endif // DEBPACKAGE_H

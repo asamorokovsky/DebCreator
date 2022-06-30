@@ -14,6 +14,7 @@
 #include <QScrollArea>
 #include <QComboBox>
 #include <QCheckBox>
+#include <QDir>
 
 #include <QRegExp>
 #include <QRegExpValidator>
@@ -23,7 +24,8 @@
 #include <QDebug>
 
 #include "debcontrolfile.h"
-#include "librarypackage.h"
+#include "debpackage.h"
+
 #include "utils.h"
 
 class MainWindow : public QMainWindow
@@ -73,7 +75,7 @@ private:
     QTextEdit *secondTab_control_conflictsTE;
     QTextEdit *secondTab_control_replacesTE;
     QTextEdit *secondTab_control_providesTE;
-    QTextEdit *secondTab_control__builtUsingTE;
+    QTextEdit *secondTab_control_builtUsingTE;
 
     QLineEdit *secondTab_control_installedSizeLE;
     QLineEdit *secondTab_control_homepageLE;
