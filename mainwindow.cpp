@@ -98,43 +98,83 @@ void MainWindow::createUI()
         this->secondTab_controlFileGB->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 
         QGridLayout *controlFileGBLayout = new QGridLayout(this->secondTab_controlFileGB);
-        controlFileGBLayout->addWidget(new QLabel("Package:"), 0, 0, Qt::AlignLeft | Qt::AlignTop);
-        controlFileGBLayout->addWidget(new QLabel("Version:"), 1, 0, Qt::AlignLeft | Qt::AlignTop);
-        controlFileGBLayout->addWidget(new QLabel("Priority:"), 2, 0, Qt::AlignLeft | Qt::AlignTop);
-        controlFileGBLayout->addWidget(new QLabel("Section:"), 3, 0, Qt::AlignLeft | Qt::AlignTop);
-        controlFileGBLayout->addWidget(new QLabel("Maintainer:"), 4, 0, Qt::AlignLeft | Qt::AlignTop);
-        controlFileGBLayout->addWidget(new QLabel("Installed-Size:"), 5, 0, Qt::AlignLeft | Qt::AlignTop);
-        controlFileGBLayout->addWidget(new QLabel("Depends:"), 6, 0, Qt::AlignLeft | Qt::AlignTop);
-        controlFileGBLayout->addWidget(new QLabel("Suggests:"), 7, 0, Qt::AlignLeft | Qt::AlignTop);
-        controlFileGBLayout->addWidget(new QLabel("Conflicts:"), 8, 0, Qt::AlignLeft | Qt::AlignTop);
-        controlFileGBLayout->addWidget(new QLabel("Description:"), 9, 0, Qt::AlignLeft | Qt::AlignTop);
+
+        controlFileGBLayout->addWidget(new QLabel("Package*:"), 0, 0, Qt::AlignLeft | Qt::AlignTop);
+        controlFileGBLayout->addWidget(new QLabel("Version*:"), 1, 0, Qt::AlignLeft | Qt::AlignTop);
+        controlFileGBLayout->addWidget(new QLabel("Architecture*:"), 2, 0, Qt::AlignLeft | Qt::AlignTop);
+        controlFileGBLayout->addWidget(new QLabel("Maintainer*:"), 3, 0, Qt::AlignLeft | Qt::AlignTop);
+        controlFileGBLayout->addWidget(new QLabel("Description*:"), 4, 0, Qt::AlignLeft | Qt::AlignTop);
+        controlFileGBLayout->addWidget(new QLabel("Section:"), 5, 0, Qt::AlignLeft | Qt::AlignTop);
+        controlFileGBLayout->addWidget(new QLabel("Priority:"), 6, 0, Qt::AlignLeft | Qt::AlignTop);
+        controlFileGBLayout->addWidget(new QLabel("Essential:"), 7, 0, Qt::AlignLeft | Qt::AlignTop);
+        controlFileGBLayout->addWidget(new QLabel("Source:"), 8, 0, Qt::AlignLeft | Qt::AlignTop);
+        controlFileGBLayout->addWidget(new QLabel("Depends:"), 9, 0, Qt::AlignLeft | Qt::AlignTop);
+        controlFileGBLayout->addWidget(new QLabel("Pre-Depends:"), 10, 0, Qt::AlignLeft | Qt::AlignTop);
+        controlFileGBLayout->addWidget(new QLabel("Recommends:"), 11, 0, Qt::AlignLeft | Qt::AlignTop);
+        controlFileGBLayout->addWidget(new QLabel("Suggests:"), 12, 0, Qt::AlignLeft | Qt::AlignTop);
+        controlFileGBLayout->addWidget(new QLabel("Breaks:"), 13, 0, Qt::AlignLeft | Qt::AlignTop);
+        controlFileGBLayout->addWidget(new QLabel("Conflicts:"), 14, 0, Qt::AlignLeft | Qt::AlignTop);
+        controlFileGBLayout->addWidget(new QLabel("Replaces:"), 15, 0, Qt::AlignLeft | Qt::AlignTop);
+        controlFileGBLayout->addWidget(new QLabel("Provides:"), 16, 0, Qt::AlignLeft | Qt::AlignTop);
+        controlFileGBLayout->addWidget(new QLabel("Built-Using:"), 17, 0, Qt::AlignLeft | Qt::AlignTop);
+        controlFileGBLayout->addWidget(new QLabel("Installed-Size:"), 18, 0, Qt::AlignLeft | Qt::AlignTop);
+        controlFileGBLayout->addWidget(new QLabel("Homepage:"), 19, 0, Qt::AlignLeft | Qt::AlignTop);
+
 
         this->secondTab_control_packageLE = new QLineEdit(tr(""));
         this->secondTab_control_packageLE->setValidator(new QRegExpValidator(QRegExp("[a-zA-Z0-9-]+"), this));
         this->secondTab_control_versionLE = new QLineEdit(tr(""));
         this->secondTab_control_versionLE->setValidator(new QRegExpValidator(QRegExp("[0-9.]+"), this));
-        this->secondTab_control_priorityLE = new QLineEdit(tr(""));
-        this->secondTab_control_priorityLE->setValidator(new QRegExpValidator(QRegExp("[a-z]+"), this));
+        this->secondTab_control_architectureLE = new QLineEdit(tr(""));
+        this->secondTab_control_maintainerLE = new QLineEdit(tr(""));
+        this->secondTab_control_descriptionTE = new QTextEdit(tr(""));
+
         this->secondTab_control_sectionLE = new QLineEdit(tr(""));
         this->secondTab_control_sectionLE->setValidator(new QRegExpValidator(QRegExp("[a-z]+"), this));
-        this->secondTab_control_maintainerTE = new QTextEdit(tr(""));
-        this->secondTab_control_installed_sizeLE = new QLineEdit(tr(""));
-        this->secondTab_control_installed_sizeLE->setValidator(new QRegExpValidator(QRegExp("[0-9]+"), this));
+        this->secondTab_control_priorityCB = new QComboBox();
+        QStringList priorityItems;
+        priorityItems<<""<<"required"<<"important"<<"standard"<<"optional"<<"extra";
+        this->secondTab_control_priorityCB->addItems(priorityItems);
+
+        this->econdTab_control_essentialCB = new QCheckBox();
+        this->secondTab_control_sourceLE = new QLineEdit(tr(""));
         this->secondTab_control_dependsTE = new QTextEdit(tr(""));
+        this->secondTab_control_pre_dependsTE = new QTextEdit(tr(""));
+        this->secondTab_control_recommendsTE = new QTextEdit(tr(""));
         this->secondTab_control_suggestsTE = new QTextEdit(tr(""));
+        this->secondTab_control_breaksTE = new QTextEdit(tr(""));
         this->secondTab_control_conflictsTE = new QTextEdit(tr(""));
-        this->secondTab_control_descriptionTE = new QTextEdit(tr(""));
+        this->secondTab_control_replacesTE = new QTextEdit(tr(""));
+        this->secondTab_control_providesTE = new QTextEdit(tr(""));
+        this->secondTab_control__builtUsingTE = new QTextEdit(tr(""));
+
+        this->secondTab_control_installedSizeLE = new QLineEdit(tr(""));
+        this->secondTab_control_installedSizeLE->setValidator(new QRegExpValidator(QRegExp("[0-9]+"), this));
+        this->secondTab_control_homepageLE = new QLineEdit(tr(""));
+
 
         controlFileGBLayout->addWidget(this->secondTab_control_packageLE, 0, 1, Qt::AlignTop);
         controlFileGBLayout->addWidget(this->secondTab_control_versionLE, 1, 1, Qt::AlignTop);
-        controlFileGBLayout->addWidget(this->secondTab_control_priorityLE, 2, 1, Qt::AlignTop);
-        controlFileGBLayout->addWidget(this->secondTab_control_sectionLE, 3, 1, Qt::AlignTop);
-        controlFileGBLayout->addWidget(this->secondTab_control_maintainerTE, 4, 1, Qt::AlignTop);
-        controlFileGBLayout->addWidget(this->secondTab_control_installed_sizeLE, 5, 1, Qt::AlignTop);
-        controlFileGBLayout->addWidget(this->secondTab_control_dependsTE, 6, 1, Qt::AlignTop);
-        controlFileGBLayout->addWidget(this->secondTab_control_suggestsTE, 7, 1, Qt::AlignTop);
-        controlFileGBLayout->addWidget(this->secondTab_control_conflictsTE, 8, 1, Qt::AlignTop);
-        controlFileGBLayout->addWidget(this->secondTab_control_descriptionTE, 9, 1, Qt::AlignTop);
+        controlFileGBLayout->addWidget(this->secondTab_control_architectureLE, 2, 1, Qt::AlignTop);
+        controlFileGBLayout->addWidget(this->secondTab_control_maintainerLE, 3, 1, Qt::AlignTop);
+        controlFileGBLayout->addWidget(this->secondTab_control_descriptionTE, 4, 1, Qt::AlignTop);
+        controlFileGBLayout->addWidget(this->secondTab_control_sectionLE, 5, 1, Qt::AlignTop);
+        controlFileGBLayout->addWidget(this->secondTab_control_priorityCB, 6, 1, Qt::AlignTop);
+        controlFileGBLayout->addWidget(this->econdTab_control_essentialCB, 7, 1, Qt::AlignTop);
+        controlFileGBLayout->addWidget(this->secondTab_control_sourceLE, 8, 1, Qt::AlignTop);
+        controlFileGBLayout->addWidget(this->secondTab_control_dependsTE, 9, 1, Qt::AlignTop);
+
+        controlFileGBLayout->addWidget(this->secondTab_control_pre_dependsTE, 10, 1, Qt::AlignTop);
+        controlFileGBLayout->addWidget(this->secondTab_control_recommendsTE, 11, 1, Qt::AlignTop);
+        controlFileGBLayout->addWidget(this->secondTab_control_suggestsTE, 12, 1, Qt::AlignTop);
+        controlFileGBLayout->addWidget(this->secondTab_control_breaksTE, 13, 1, Qt::AlignTop);
+        controlFileGBLayout->addWidget(this->secondTab_control_conflictsTE, 14, 1, Qt::AlignTop);
+        controlFileGBLayout->addWidget(this->secondTab_control_replacesTE, 15, 1, Qt::AlignTop);
+        controlFileGBLayout->addWidget(this->secondTab_control_providesTE, 16, 1, Qt::AlignTop);
+        controlFileGBLayout->addWidget(this->secondTab_control__builtUsingTE, 17, 1, Qt::AlignTop);
+        controlFileGBLayout->addWidget(this->secondTab_control_installedSizeLE, 18, 1, Qt::AlignTop);
+        controlFileGBLayout->addWidget(this->secondTab_control_homepageLE, 19, 1, Qt::AlignTop);
+
 
         scrollArea->setWidget(this->secondTab_controlFileGB);
 
@@ -246,114 +286,35 @@ void MainWindow::connectUI()
     // Connect first tab widgets to their slots
     connect(this->firstTab_filePathSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_firstTab_filePathSelectBtn_clicked);
     connect(this->firstTab_additionalFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_firstTab_additionalFileSelectBtn_clicked);
+    connect(this->firstTab_additionalFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_firstTab_additionalFileClearBtn_clicked);
     connect(this->firstTab_quitBtn, &QPushButton::clicked, this, &MainWindow::slot_firstTab_quitBtn_clicked);
     connect(this->firstTab_nextBtn, &QPushButton::clicked, this, &MainWindow::slot_firstTab_nextBtn_clicked);
 
+
     // Connect second tab widgets to their slots
     connect(this->secondTab_selectControlFileBtn, &QPushButton::clicked, this, &MainWindow::slot_secondTab_selectControlFileBtn_clicked);
+    connect(this->secondTab_clearControlFileBtn, &QPushButton::clicked, this, &MainWindow::slot_secondTab_clearControlFileBtn_clicked);
     connect(this->secondTab_backBtn, &QPushButton::clicked, this, &MainWindow::slot_secondTab_backBtn_clicked);
     connect(this->secondTab_nextBtn, &QPushButton::clicked, this, &MainWindow::slot_secondTab_nextBtn_clicked);
 
     // Connect third tab widgets to thier slots
+
+    connect(this->thirdTab_preinstFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_preinstFileSelectBtn_clicked);
+    connect(this->thirdTab_postinstFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_postinstFileSelectBtn_clicked);
+    connect(this->thirdTab_prermFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_prermFileSelectBtn_clicked);
+    connect(this->thirdTab_postrmFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_postrmFileSelectBtn_clicked);
+    connect(this->thirdTab_menusFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_menusFileSelectBtn_clicked);
+    connect(this->thirdTab_changelogFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_changelogFileSelectBtn_clicked);
+
+    connect(this->thirdTab_preinstFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_preinstFileClearBtn_clicked);
+    connect(this->thirdTab_postinstFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_postinstFileClearBtn_clicked);
+    connect(this->thirdTab_prermFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_prermFileClearBtn_clicked);
+    connect(this->thirdTab_postrmFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_postrmFileClearBtn_clicked);
+    connect(this->thirdTab_menusFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_menusFileClearBtn_clicked);
+    connect(this->thirdTab_changelogFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_changelogFileClearBtn_clicked);
+
     connect(this->thirdTab_backBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_backBtn_clicked);
     connect(this->thirdTab_nextBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_nextBtn_clicked);
-
-}
-
-// This function determines if the selected file is a binary executable file.
-bool MainWindow::isFileElf(QString filePath)
-{
-    QProcess process;
-    QStringList args;
-    args.append("-h");
-    args.append(filePath);
-    process.start("readelf", args);
-
-    if( !process.waitForStarted() || !process.waitForFinished() )
-        return false;
-
-    if (!process.readAllStandardError().isEmpty())
-        return false;
-
-    return process.readAllStandardOutput().trimmed().toLower().contains("dyn");
-}
-
-// This function creates a list of dependencies for the selected binary executable file.
-QList<LibraryPackage> MainWindow::getDependnciesForElf(QString filePath)
-{
-    QList<LibraryPackage> packages;
-
-    QProcess process;
-    QStringList args;
-    args.append("-p");
-    args.append(filePath);
-
-    process.start("objdump", args);
-
-    if( !process.waitForStarted() || !process.waitForFinished() )
-        return packages;
-
-    if (!process.readAllStandardError().isEmpty())
-        return packages;
-
-    QStringList dependnciesLibs;
-    foreach (QString currentLib, QString(process.readAllStandardOutput()).split("\n")) {
-        if (currentLib.toLower().contains("needed")) {
-            currentLib = currentLib.remove("NEEDED").simplified().trimmed();
-            if (!dependnciesLibs.contains(currentLib) && !currentLib.trimmed().isEmpty())
-                dependnciesLibs.append(currentLib);
-        }
-    }
-    process.close();
-
-    foreach (QString currentLib, dependnciesLibs) {
-        args.clear();
-        args.append("-S");
-        args.append(currentLib);
-
-        process.start("dpkg", args);
-        process.waitForStarted();
-        process.waitForFinished();
-
-        QStringList packagesForCurrentLib = QString(process.readAllStandardOutput()).split("\n");
-
-        process.close();
-
-        foreach (QString packageName, packagesForCurrentLib) {
-            packageName = packageName.mid(0, packageName.indexOf(":"));
-
-            bool isPackageInList = false;
-            foreach (LibraryPackage currentPackage, packages) {
-                if (currentPackage.getName() == packageName) {
-                    isPackageInList = true;
-                    break;
-                }
-            }
-
-            if (!isPackageInList && !packageName.trimmed().isEmpty() && packageName.startsWith("lib")) {
-                args.clear();
-                args.append("-s");
-                args.append(packageName);
-                process.start("dpkg", args);
-                process.waitForStarted();
-                process.waitForFinished();
-
-                QStringList packageInfo = QString(process.readAllStandardOutput()).split("\n");
-                process.close();
-
-                QString packageVersion;
-
-                foreach (QString curentPackageInfoItem, packageInfo) {
-                    if (curentPackageInfoItem.simplified().toLower().startsWith("version")) {
-                        packageVersion = curentPackageInfoItem.mid(curentPackageInfoItem.indexOf(":")+1).simplified();
-                        break;
-                    }
-                }
-                packages.append(LibraryPackage(packageName, packageVersion));
-            }
-        }
-    }
-    return packages;
 }
 
 // Private slots
@@ -365,7 +326,7 @@ void MainWindow::slot_firstTab_filePathSelectBtn_clicked()
     if (selectedFile.isEmpty()) {
         return;
     }
-    if (!isFileElf(selectedFile))
+    if (!Utils::isFileElf(selectedFile))
         QMessageBox::warning(this, tr("Wrong file"), tr("Selected file is not DYN (Shared object file)!"));
     else
         this->firstTab_filePath->setText(selectedFile);
@@ -378,6 +339,21 @@ void MainWindow::slot_firstTab_additionalFileSelectBtn_clicked()
     if (additionalFiles.isEmpty()) {
         return;
     }
+
+    QString files;
+    for(int index = 0;index < additionalFiles.size(); index++) {
+        QFileInfo fi(additionalFiles.at(index));
+
+        files.append(fi.fileName());
+        if (index != additionalFiles.size()-1)
+            files.append("; ");
+    }
+    this->firstTab_additionalFilesLE->setText(files);
+}
+
+void MainWindow::slot_firstTab_additionalFileClearBtn_clicked()
+{
+    this->firstTab_additionalFilesLE->clear();
 }
 
 void MainWindow::slot_firstTab_quitBtn_clicked()
@@ -422,88 +398,147 @@ void MainWindow::slot_secondTab_selectControlFileBtn_clicked()
 
     this->secondTab_controlFile->setText(selectedFile);
 
-
     QPair<bool, DebControlFile*> result = DebControlFile::fromFile(this->secondTab_controlFile->text().trimmed());
     if (result.first) {
         DebControlFile *controlFile = result.second;
 
         this->secondTab_control_packageLE->setText(controlFile->getPackage());
         this->secondTab_control_versionLE->setText(controlFile->getVersion());
-        this->secondTab_control_priorityLE->setText(controlFile->getPriority());
+        //this->secondTab_control_priorityLE->setText(PriorityToString[controlFile->getPriority()]);
         this->secondTab_control_sectionLE->setText(controlFile->getSection());
-        this->secondTab_control_maintainerTE->setText(controlFile->getMaintainer());
-        this->secondTab_control_installed_sizeLE->setText(QString::number(controlFile->getInstalledSize()));
+        this->secondTab_control_maintainerLE->setText(controlFile->getMaintainer());
+        this->secondTab_control_installedSizeLE->setText(QString::number(controlFile->getInstalledSize()));
+        this->secondTab_control_dependsTE->insertPlainText(Utils::libraryPackageToString(controlFile->getDepends()));
+        this->secondTab_control_suggestsTE->insertPlainText(Utils::libraryPackageToString(controlFile->getSuggests()));
+        this->secondTab_control_conflictsTE->insertPlainText(Utils::libraryPackageToString(controlFile->getConflicts()));
 
-        QList<LibraryPackage> dependPackages = controlFile->getDependPackages();
-        for (int currentIndex = 0; currentIndex < dependPackages.size(); currentIndex++) {
-            LibraryPackage libPackage = dependPackages.at(currentIndex);
-            QString strToInsert = libPackage.getName();
-            if (!libPackage.getVersion().isEmpty())
-                strToInsert.append(QString(" (%1)").arg(libPackage.getVersion()));
-            if (currentIndex != dependPackages.size()-1)
-                strToInsert.append(", ");
-            this->secondTab_control_dependsTE->insertPlainText(strToInsert);
-        }
-
-        QList<LibraryPackage> suggestsPackages = controlFile->getSuggestPackages();
-        for (int currentIndex = 0; currentIndex < suggestsPackages.size(); currentIndex++) {
-            LibraryPackage libPackage = dependPackages.at(currentIndex);
-            QString strToInsert = libPackage.getName();
-            if (!libPackage.getVersion().isEmpty())
-                strToInsert.append(QString(" (%1)").arg(libPackage.getVersion()));
-            if (currentIndex != suggestsPackages.size()-1)
-                strToInsert.append(", ");
-            this->secondTab_control_suggestsTE->insertPlainText(strToInsert);
-        }
-
-        QList<LibraryPackage> conflictPackages = controlFile->getConflictPackages();
-        for (int currentIndex = 0; currentIndex < conflictPackages.size(); currentIndex++) {
-            LibraryPackage libPackage = conflictPackages.at(currentIndex);
-            QString strToInsert = libPackage.getName();
-            if (!libPackage.getVersion().isEmpty())
-                strToInsert.append(QString(" (%1)").arg(libPackage.getVersion()));
-            if (currentIndex != conflictPackages.size()-1)
-                strToInsert.append(", ");
-            this->secondTab_control_conflictsTE->insertPlainText(strToInsert);
-        }
         this->secondTab_control_descriptionTE->setText(controlFile->getDescription());
     }
 }
 
+void MainWindow::slot_secondTab_clearControlFileBtn_clicked()
+{
+    this->secondTab_controlFile->clear();
+    this->secondTab_control_packageLE->clear();
+    this->secondTab_control_versionLE->clear();
+    this->secondTab_control_priorityCB->setCurrentText("");
+    this->secondTab_control_sectionLE->clear();
+    this->secondTab_control_maintainerLE->clear();
+    this->secondTab_control_installedSizeLE->clear();
+    this->secondTab_control_dependsTE->clear();
+    this->secondTab_control_suggestsTE->clear();
+    this->secondTab_control_descriptionTE->clear();
+}
+
 void MainWindow::slot_secondTab_backBtn_clicked()
 {
-    this->mainWidget->setCurrentIndex(this->mainWidget->indexOf(this->secondTab_Widget));
+    this->mainWidget->setCurrentIndex(this->mainWidget->indexOf(this->firstTab_Widget));
 }
 
 void MainWindow::slot_secondTab_nextBtn_clicked()
 {
-
+    if (this->secondTab_control_packageLE->text().trimmed().isEmpty())
+        return;
+    if (this->secondTab_control_versionLE->text().trimmed().isEmpty())
+        return;
+    this->secondTab_control_priorityCB->clear();
+    this->secondTab_control_sectionLE->clear();
+    this->secondTab_control_maintainerLE->clear();
+    this->secondTab_control_installedSizeLE->clear();
+    this->secondTab_control_dependsTE->clear();
+    this->secondTab_control_suggestsTE->clear();
+    this->secondTab_control_descriptionTE->clear();
+    this->mainWidget->setCurrentIndex(this->mainWidget->indexOf(this->thirdTab_Widget));
 }
 
 // Third tab slots
 void MainWindow::slot_thirdTab_preinstFileSelectBtn_clicked()
 {
+    QString selectedFile = QFileDialog::getOpenFileName(this, tr("Select file"));
+    if (selectedFile.isEmpty())
+        return;
 
+    this->thirdTab_preinstFilePathLE->setText(selectedFile);
 }
 
 void MainWindow::slot_thirdTab_postinstFileSelectBtn_clicked()
 {
+    QString selectedFile = QFileDialog::getOpenFileName(this, tr("Select file"));
+    if (selectedFile.isEmpty())
+        return;
 
+    this->thirdTab_postinstFilePathLE->setText(selectedFile);
 }
 
 void MainWindow::slot_thirdTab_prermFileSelectBtn_clicked()
 {
+    QString selectedFile = QFileDialog::getOpenFileName(this, tr("Select file"));
+    if (selectedFile.isEmpty())
+        return;
 
+    this->thirdTab_prermFilePathLE->setText(selectedFile);
 }
 
 void MainWindow::slot_thirdTab_postrmFileSelectBtn_clicked()
 {
+    QString selectedFile = QFileDialog::getOpenFileName(this, tr("Select file"));
+    if (selectedFile.isEmpty())
+        return;
 
+    this->thirdTab_postrmFilePathLE->setText(selectedFile);
+}
+
+void MainWindow::slot_thirdTab_menusFileSelectBtn_clicked()
+{
+    QString selectedFile = QFileDialog::getOpenFileName(this, tr("Select file"));
+    if (selectedFile.isEmpty())
+        return;
+
+    this->thirdTab_menusFilePathLE->setText(selectedFile);
+}
+
+void MainWindow::slot_thirdTab_changelogFileSelectBtn_clicked()
+{
+    QString selectedFile = QFileDialog::getOpenFileName(this, tr("Select file"));
+    if (selectedFile.isEmpty())
+        return;
+
+    this->thirdTab_changelogFilePathLE->setText(selectedFile);
+}
+
+void MainWindow::slot_thirdTab_preinstFileClearBtn_clicked()
+{
+    this->thirdTab_preinstFilePathLE->clear();
+}
+
+void MainWindow::slot_thirdTab_postinstFileClearBtn_clicked()
+{
+    this->thirdTab_postinstFilePathLE->clear();
+}
+
+void MainWindow::slot_thirdTab_prermFileClearBtn_clicked()
+{
+    this->thirdTab_prermFilePathLE->clear();
+}
+
+void MainWindow::slot_thirdTab_postrmFileClearBtn_clicked()
+{
+    this->thirdTab_postrmFilePathLE->clear();
+}
+
+void MainWindow::slot_thirdTab_menusFileClearBtn_clicked()
+{
+    this->thirdTab_menusFilePathLE->clear();
+}
+
+void MainWindow::slot_thirdTab_changelogFileClearBtn_clicked()
+{
+    this->thirdTab_changelogFilePathLE->clear();
 }
 
 void MainWindow::slot_thirdTab_backBtn_clicked()
 {
-
+    this->mainWidget->setCurrentIndex(this->mainWidget->indexOf(this->secondTab_Widget));
 }
 
 void MainWindow::slot_thirdTab_nextBtn_clicked()

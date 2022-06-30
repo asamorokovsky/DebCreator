@@ -8,6 +8,8 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+CONFIG += c++17
+
 TARGET = DebCreator
 TEMPLATE = app
 
@@ -28,13 +30,15 @@ SOURCES += \
         mainwindow.cpp \
     debpackage.cpp \
     debcontrolfile.cpp \
-    librarypackage.cpp
+    librarypackage.cpp \
+    utils.cpp
 
 HEADERS += \
         mainwindow.h \
     debpackage.h \
     debcontrolfile.h \
-    librarypackage.h
+    librarypackage.h \
+    utils.h
 
 RESOURCES += \
     res.qrc

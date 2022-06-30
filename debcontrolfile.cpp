@@ -2,17 +2,25 @@
 
 DebControlFile::DebControlFile()
 {
+    // REQUIRED FIELDS
     _package = QString();
     _version = QString();
-    _priority = QString();
-    _section = QString();
     _architecture = QString();
     _maintainer = QString();
-    _installedSize = 0;
     _description = QString();
+
+    // RECOMMENDED FIELDS
+    _section = QString();
+    _priority = Priority::Optional;
+
+    // OTHER FIELDS
     _essential = false;
+    _source = QString();
+    _installedSize = 0;
+    _homepage = QString();
 }
 
+// REQUIRED FIELDS
 void DebControlFile::setPackage(QString package)
 {
     _package = package;
@@ -23,17 +31,7 @@ void DebControlFile::setVersion(QString version)
     _version = version;
 }
 
-void DebControlFile::setPriority(QString priority)
-{
-    _priority = priority;
-}
-
-void DebControlFile::setSection(QString section)
-{
-    _section = section;
-}
-
-void DebControlFile::setArchitecture(QString architecture)
+void DebControlFile::setAarchitecture(QString architecture)
 {
     _architecture = architecture;
 }
@@ -43,34 +41,9 @@ void DebControlFile::setMaintainer(QString maintainer)
     _maintainer = maintainer;
 }
 
-void DebControlFile::setInstalledSize(ulong installedSize)
-{
-    _installedSize = installedSize;
-}
-
-void DebControlFile::setDependPackages(QList<LibraryPackage> depends)
-{
-    _depends = depends;
-}
-
-void DebControlFile::setSuggestPackages(QList<LibraryPackage> suggests)
-{
-    _suggests = suggests;
-}
-
-void DebControlFile::setConflictPackages(QList<LibraryPackage> conflicts)
-{
-    _conflicts = conflicts;
-}
-
 void DebControlFile::setDescription(QString description)
 {
     _description = description;
-}
-
-void DebControlFile::setEssential(bool essential)
-{
-    _essential = essential;
 }
 
 QString DebControlFile::getPackage()
@@ -83,16 +56,6 @@ QString DebControlFile::getVersion()
     return _version;
 }
 
-QString DebControlFile::getPriority()
-{
-    return _priority;
-}
-
-QString DebControlFile::getSection()
-{
-    return _section;
-}
-
 QString DebControlFile::getArchitecture()
 {
     return _architecture;
@@ -103,29 +66,96 @@ QString DebControlFile::getMaintainer()
     return _maintainer;
 }
 
-ulong DebControlFile::getInstalledSize()
-{
-    return _installedSize;
-}
-
-QList<LibraryPackage> DebControlFile::getDependPackages()
-{
-    return _depends;
-}
-
-QList<LibraryPackage> DebControlFile::getSuggestPackages()
-{
-    return _suggests;
-}
-
-QList<LibraryPackage> DebControlFile::getConflictPackages()
-{
-    return _conflicts;
-}
-
 QString DebControlFile::getDescription()
 {
     return _description;
+}
+
+// RECOMMENDED FIELDS
+void DebControlFile::setSection(QString section)
+{
+    _section = section;
+}
+
+void DebControlFile::setPriority(enum Priority priority)
+{
+    _priority = priority;
+}
+
+QString DebControlFile::getSection()
+{
+    return _section;
+}
+
+enum Priority DebControlFile::getPriority()
+{
+    return _priority;
+}
+
+// OTHER FIELDS
+void DebControlFile::setEssential(bool essential)
+{
+    _essential = essential;
+}
+
+void DebControlFile::setSource(QString source)
+{
+    _source = source;
+}
+
+void DebControlFile::setDepends(QList<LibraryPackage> depends)
+{
+    _depends = depends;
+}
+
+void DebControlFile::setPreDepends(QList<LibraryPackage> pre_depends)
+{
+    _pre_depends = pre_depends;
+}
+
+void DebControlFile::setRecommends(QList<LibraryPackage> recommends)
+{
+    _recommends = recommends;
+}
+
+void DebControlFile::setSuggests(QList<LibraryPackage> suggests)
+{
+    _suggests = suggests;
+}
+
+void DebControlFile::setBreaks(QList<LibraryPackage> breaks)
+{
+    _breaks = breaks;
+}
+
+void DebControlFile::setConflicts(QList<LibraryPackage> conflicts)
+{
+    _conflicts = conflicts;
+}
+
+void DebControlFile::setReplaces(QList<LibraryPackage> replaces)
+{
+    _replaces = replaces;
+}
+
+void DebControlFile::setProvides(QList<LibraryPackage> provides)
+{
+    _provides = provides;
+}
+
+void DebControlFile::setBuiltUsing(QList<LibraryPackage> builtUsing)
+{
+    _builtUsing = builtUsing;
+}
+
+void DebControlFile::setInstalledSize(ulong installedSize)
+{
+    _installedSize = installedSize;
+}
+
+void DebControlFile::setHomepage(QString homepage)
+{
+    _homepage = homepage;
 }
 
 bool DebControlFile::isEssential()
@@ -133,7 +163,89 @@ bool DebControlFile::isEssential()
     return _essential;
 }
 
-#include <QDebug>
+QString DebControlFile::getSource()
+{
+    return _source;
+}
+
+QList<LibraryPackage> DebControlFile::getDepends()
+{
+    return _depends;
+}
+
+QList<LibraryPackage> DebControlFile::getPreDepends()
+{
+    return _pre_depends;
+}
+
+QList<LibraryPackage> DebControlFile::getRecommends()
+{
+    return _recommends;
+}
+
+QList<LibraryPackage> DebControlFile::getSuggests()
+{
+    return _suggests;
+}
+
+QList<LibraryPackage> DebControlFile::getBreaks()
+{
+    return _breaks;
+}
+
+QList<LibraryPackage> DebControlFile::getConflicts()
+{
+    return _conflicts;
+}
+
+QList<LibraryPackage> DebControlFile::getReplaces()
+{
+    return _replaces;
+}
+
+QList<LibraryPackage> DebControlFile::getProvides()
+{
+    return _provides;
+}
+
+QList<LibraryPackage> DebControlFile::getBuiltUsing()
+{
+    return _builtUsing;
+}
+
+ulong DebControlFile::getInstalledSize()
+{
+    return _installedSize;
+}
+
+QString DebControlFile::getHomepage()
+{
+    return _homepage;
+}
+
+QList<LibraryPackage> getLibraryPackageByFieldInString(QString field, QString searchString)
+{
+    QList<LibraryPackage> libsResult;
+    if (searchString.startsWith(field)) {
+        QStringList libs = searchString.remove(field).trimmed().split(",");
+
+        foreach(QString currentLib, libs) {
+            QString libName, libVersion;
+
+            QRegExp reLibName("[^\\(\\)]+(?=)");
+            if (reLibName.indexIn(currentLib) != -1)
+                libName= reLibName.capturedTexts().first().trimmed();
+
+            QRegExp reLibVersion("[^(\\)]+(?=\\))");
+            if (reLibVersion.indexIn(currentLib) != -1)
+                libVersion = reLibVersion.capturedTexts().first();
+
+            libsResult.append(LibraryPackage(libName, libVersion));
+        }
+    }
+    return libsResult;
+}
+
 QPair<bool, DebControlFile*> DebControlFile::fromFile(QString filePath)
 {
     DebControlFile *result = new DebControlFile();
@@ -162,86 +274,75 @@ QPair<bool, DebControlFile*> DebControlFile::fromFile(QString filePath)
         if (currentString.startsWith("Version:"))
             result->setVersion(currentString.remove("Version:").trimmed());
 
-        if (currentString.startsWith("Priority:"))
-            result->setPriority(currentString.remove("Priority:").trimmed());
-
-        if (currentString.startsWith("Section:"))
-            result->setSection(currentString.remove("Section:").trimmed());
-
         if (currentString.startsWith("Architecture:"))
-            result->setArchitecture(currentString.remove("Architecture:").trimmed());
+            result->setAarchitecture(currentString.remove("Architecture:").trimmed());
 
         if (currentString.startsWith("Maintainer:"))
             result->setMaintainer(currentString.remove("Maintainer:").trimmed());
 
-        if (currentString.startsWith("Installed-Size:"))
-            result->setInstalledSize(currentString.remove("Installed-Size:").trimmed().toULong());
-
-        if (currentString.startsWith("Depends:")) {
-            QList<LibraryPackage> depends;
-            QStringList libs = currentString.remove("Depends:").trimmed().split(",");
-
-            foreach(QString currentLib, libs) {
-                QString libName, libVersion;
-
-                QRegExp reLibName("[^\\(\\)]+(?=)");
-                if (reLibName.indexIn(currentLib) != -1)
-                    libName= reLibName.capturedTexts().first().trimmed();
-
-                QRegExp reLibVersion("[^(\\)]+(?=\\))");
-                if (reLibVersion.indexIn(currentLib) != -1)
-                    libVersion = reLibVersion.capturedTexts().first();
-
-                depends.append(LibraryPackage(libName, libVersion));
-            }
-            result->setDependPackages(depends);
-        }
-
-        if (currentString.startsWith("Suggests:")) {
-            QList<LibraryPackage> suggests;
-            QStringList libs = currentString.remove("Suggests:").trimmed().split(",");
-
-            foreach(QString currentLib, libs) {
-                QString libName, libVersion;
-
-                QRegExp reLibName("[^\\(\\)]+(?=)");
-                if (reLibName.indexIn(currentLib) != -1)
-                    libName= reLibName.capturedTexts().first().trimmed();
-
-                QRegExp reLibVersion("[^(\\)]+(?=\\))");
-                if (reLibVersion.indexIn(currentLib) != -1)
-                    libVersion = reLibVersion.capturedTexts().first();
-
-                suggests.append(LibraryPackage(libName, libVersion));
-            }
-            result->setSuggestPackages(suggests);
-        }
-
-        if (currentString.startsWith("Conflicts:")) {
-            QList<LibraryPackage> conflicts;
-            QStringList libs = currentString.remove("Conflicts:").trimmed().split(",");
-
-            foreach(QString currentLib, libs) {
-                QString libName, libVersion;
-
-                QRegExp reLibName("[^\\(\\)]+(?=)");
-                if (reLibName.indexIn(currentLib) != -1)
-                    libName= reLibName.capturedTexts().first().trimmed();
-
-                QRegExp reLibVersion("[^(\\)]+(?=\\))");
-                if (reLibVersion.indexIn(currentLib) != -1)
-                    libVersion = reLibVersion.capturedTexts().first();
-
-                conflicts.append(LibraryPackage(libName, libVersion));
-            }
-            result->setConflictPackages(conflicts);
-        }
-
         if (currentString.startsWith("Description:"))
             result->setDescription(currentString.remove("Description:").trimmed());
 
+        if (currentString.startsWith("Section:"))
+            result->setSection(currentString.remove("Section:").trimmed());
+
+        if (currentString.startsWith("Priority:")) {
+            Priority pr;
+            QString prStr = currentString.remove("Priority:").trimmed().toLower();
+
+            if (prStr == "required")
+                pr = Priority::Required;
+            if (prStr == "important")
+                pr = Priority::Important;
+            if (prStr == "standard")
+                pr = Priority::Standard;
+            if (prStr == "optional")
+                pr = Priority::Optional;
+            if (prStr == "extra")
+                pr = Priority::Extra;
+
+            result->setPriority(pr);
+        }
+
         if (currentString.startsWith("Essential:"))
-            result->setEssential(currentString.remove("Description:").trimmed() == "yes" ? true : false);
+            result->setEssential(currentString.remove("Essential:").trimmed() == "yes" ? true : false);
+
+        if (currentString.startsWith("Source:"))
+            result->setSource(currentString.remove("Source:").trimmed());
+
+        if (currentString.startsWith("Depends:"))
+            result->setDepends(getLibraryPackageByFieldInString("Depends:", currentString));
+
+        if (currentString.startsWith("Pre-Depends:"))
+            result->setPreDepends(getLibraryPackageByFieldInString("Pre-Depends:", currentString));
+
+        if (currentString.startsWith("Recommends:"))
+            result->setRecommends(getLibraryPackageByFieldInString("Recommends:", currentString));
+
+        if (currentString.startsWith("Suggests:"))
+            result->setSuggests(getLibraryPackageByFieldInString("Suggests:", currentString));
+
+        if (currentString.startsWith("Breaks:"))
+            result->setBreaks(getLibraryPackageByFieldInString("Breaks:", currentString));
+
+        if (currentString.startsWith("Conflicts:"))
+            result->setConflicts(getLibraryPackageByFieldInString("Conflicts:", currentString));
+
+        if (currentString.startsWith("Replaces:"))
+            result->setReplaces(getLibraryPackageByFieldInString("Replaces:", currentString));
+
+        if (currentString.startsWith("Provides:"))
+            result->setProvides(getLibraryPackageByFieldInString("Provides:", currentString));
+
+        if (currentString.startsWith("Built-Using:"))
+            result->setBuiltUsing(getLibraryPackageByFieldInString("Built-Using:", currentString));
+
+        if (currentString.startsWith("Installed-Size:"))
+            result->setInstalledSize(currentString.remove("Installed-Size:").trimmed().toULong());
+
+        if (currentString.startsWith("Homepage:"))
+            result->setHomepage(currentString.remove("Homepage:").trimmed());
+
     }
     return qMakePair(true, result);
 }
@@ -251,12 +352,70 @@ void DebControlFile::toFile(QString filePath, DebControlFile* data)
     if (filePath.isEmpty())
         return;
 
+    if (data->getPackage().isEmpty() ||
+            data->getVersion().isEmpty() ||
+            data->getArchitecture().isEmpty() ||
+            data->getMaintainer().isEmpty() ||
+            data->getDescription().isEmpty())
+        return;
+
     QFile file(filePath);
 
     if (!file.open(QIODevice::WriteOnly))
         return;
 
-    // TODO create metod
+    QTextStream fileDataStream(&file);
+    fileDataStream.setCodec("UTF-8");
+
+    fileDataStream<<QString("Package: %1\n").arg(data->getPackage());
+    fileDataStream<<QString("Version: %1\n").arg(data->getVersion());
+    fileDataStream<<QString("Architecture: %1\n").arg(data->getArchitecture());
+    fileDataStream<<QString("Maintainer: %1\n").arg(data->getMaintainer());
+    fileDataStream<<QString("Description: %1\n").arg(data->getDescription());
+
+    if (!data->getSection().isEmpty())
+        fileDataStream<<QString("Section: %1\n").arg(data->getSection());
+
+    if (data->getPackage() != Priority::None)
+        fileDataStream<<QString("Priority: %1\n").arg(PriorityToString[data->getPriority()]);
+
+    fileDataStream<<QString("Essential: %1\n").arg(data->isEssential() ? "yes": "no");
+
+    if (!data->getSource().isEmpty())
+        fileDataStream<<QString("Source: %1\n").arg(data->getSource());
+
+    if (!data->getDepends().isEmpty())
+        fileDataStream<<QString("Depends: %1\n").arg(Utils::libraryPackageToString(data->getDepends()));
+
+    if (!data->getPreDepends().isEmpty())
+        fileDataStream<<QString("Pre-Depends: %1\n").arg(Utils::libraryPackageToString(data->getPreDepends()));
+
+    if (!data->getRecommends().isEmpty())
+        fileDataStream<<QString("Recommends: %1\n").arg(Utils::libraryPackageToString(data->getRecommends()));
+
+    if (!data->getSuggests().isEmpty())
+        fileDataStream<<QString("Suggests: %1\n").arg(Utils::libraryPackageToString(data->getSuggests()));
+
+    if (!data->getBreaks().isEmpty())
+        fileDataStream<<QString("Breaks: %1\n").arg(Utils::libraryPackageToString(data->getBreaks()));
+
+    if (!data->getConflicts().isEmpty())
+        fileDataStream<<QString("Conflicts: %1\n").arg(Utils::libraryPackageToString(data->getConflicts()));
+
+    if (!data->getReplaces().isEmpty())
+        fileDataStream<<QString("Replaces: %1\n").arg(Utils::libraryPackageToString(data->getReplaces()));
+
+    if (!data->getProvides().isEmpty())
+        fileDataStream<<QString("Provides: %1\n").arg(Utils::libraryPackageToString(data->getProvides()));
+
+    if (!data->getBuiltUsing().isEmpty())
+        fileDataStream<<QString("Built-Using: %1\n").arg(Utils::libraryPackageToString(data->getBuiltUsing()));
+
+    if (data->getInstalledSize() != 0)
+        fileDataStream<<QString("Installed-Size: %1\n").arg(data->getInstalledSize());
+
+    if (!data->getHomepage().isEmpty())
+        fileDataStream<<QString("Homepage: %1\n").arg(data->getHomepage());
 
     file.close();
 }

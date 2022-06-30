@@ -12,14 +12,19 @@
 #include <QMessageBox>
 #include <QGroupBox>
 #include <QScrollArea>
+#include <QComboBox>
+#include <QCheckBox>
 
 #include <QRegExp>
 #include <QRegExpValidator>
+
+#include <QFileInfo>
 
 #include <QDebug>
 
 #include "debcontrolfile.h"
 #include "librarypackage.h"
+#include "utils.h"
 
 class MainWindow : public QMainWindow
 {
@@ -48,16 +53,31 @@ private:
     QLineEdit *secondTab_controlFile;
 
     QGroupBox *secondTab_controlFileGB;
+
     QLineEdit *secondTab_control_packageLE;
     QLineEdit *secondTab_control_versionLE;
-    QLineEdit *secondTab_control_priorityLE;
-    QLineEdit *secondTab_control_sectionLE;
-    QTextEdit *secondTab_control_maintainerTE;
-    QLineEdit *secondTab_control_installed_sizeLE;
-    QTextEdit *secondTab_control_dependsTE;
-    QTextEdit *secondTab_control_suggestsTE;
-    QTextEdit *secondTab_control_conflictsTE;
+    QLineEdit *secondTab_control_architectureLE;
+    QLineEdit *secondTab_control_maintainerLE;
     QTextEdit *secondTab_control_descriptionTE;
+
+    QLineEdit *secondTab_control_sectionLE;
+    QComboBox *secondTab_control_priorityCB;
+
+    QCheckBox *econdTab_control_essentialCB;
+    QLineEdit *secondTab_control_sourceLE;
+    QTextEdit *secondTab_control_dependsTE;
+    QTextEdit *secondTab_control_pre_dependsTE;
+    QTextEdit *secondTab_control_recommendsTE;
+    QTextEdit *secondTab_control_suggestsTE;
+    QTextEdit *secondTab_control_breaksTE;
+    QTextEdit *secondTab_control_conflictsTE;
+    QTextEdit *secondTab_control_replacesTE;
+    QTextEdit *secondTab_control_providesTE;
+    QTextEdit *secondTab_control__builtUsingTE;
+
+    QLineEdit *secondTab_control_installedSizeLE;
+    QLineEdit *secondTab_control_homepageLE;
+
 
     QPushButton *secondTab_selectControlFileBtn;
     QPushButton *secondTab_clearControlFileBtn;
@@ -92,18 +112,17 @@ private:
     void createUI();
     void connectUI();
 
-    bool isFileElf(QString filePath);
-    QList<LibraryPackage> getDependnciesForElf(QString filePath);
-
 private slots:
     // First tab slots
     void slot_firstTab_filePathSelectBtn_clicked();
     void slot_firstTab_additionalFileSelectBtn_clicked();
+    void slot_firstTab_additionalFileClearBtn_clicked();
     void slot_firstTab_quitBtn_clicked();
     void slot_firstTab_nextBtn_clicked();
 
     // Second tab slots
     void slot_secondTab_selectControlFileBtn_clicked();
+    void slot_secondTab_clearControlFileBtn_clicked();
     void slot_secondTab_backBtn_clicked();
     void slot_secondTab_nextBtn_clicked();
 
@@ -112,11 +131,18 @@ private slots:
     void slot_thirdTab_postinstFileSelectBtn_clicked();
     void slot_thirdTab_prermFileSelectBtn_clicked();
     void slot_thirdTab_postrmFileSelectBtn_clicked();
+    void slot_thirdTab_menusFileSelectBtn_clicked();
+    void slot_thirdTab_changelogFileSelectBtn_clicked();
+
+    void slot_thirdTab_preinstFileClearBtn_clicked();
+    void slot_thirdTab_postinstFileClearBtn_clicked();
+    void slot_thirdTab_prermFileClearBtn_clicked();
+    void slot_thirdTab_postrmFileClearBtn_clicked();
+    void slot_thirdTab_menusFileClearBtn_clicked();
+    void slot_thirdTab_changelogFileClearBtn_clicked();
 
     void slot_thirdTab_backBtn_clicked();
     void slot_thirdTab_nextBtn_clicked();
-
-
 };
 
 #endif // MAINWINDOW_H
