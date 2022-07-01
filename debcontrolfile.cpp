@@ -238,17 +238,19 @@ QList<LibraryPackage> DebControlFile::getLibraryPackagesInString(QString searchS
     QStringList libs = searchString.trimmed().split(",");
 
     foreach(QString currentLib, libs) {
-        QString libName, libVersion;
+        if (!currentLib.isEmpty()) {
+            QString libName, libVersion;
 
-        QRegExp reLibName("[^\\(\\)]+(?=)");
-        if (reLibName.indexIn(currentLib) != -1)
-            libName= reLibName.capturedTexts().first().trimmed();
+            QRegExp reLibName("[^\\(\\)]+(?=)");
+            if (reLibName.indexIn(currentLib) != -1)
+                libName= reLibName.capturedTexts().first().trimmed();
 
-        QRegExp reLibVersion("[^(\\)]+(?=\\))");
-        if (reLibVersion.indexIn(currentLib) != -1)
-            libVersion = reLibVersion.capturedTexts().first();
+            QRegExp reLibVersion("[^(\\)]+(?=\\))");
+            if (reLibVersion.indexIn(currentLib) != -1)
+                libVersion = reLibVersion.capturedTexts().first();
 
-        libsResult.append(LibraryPackage(libName, libVersion));
+            libsResult.append(LibraryPackage(libName, libVersion));
+        }
     }
     return libsResult;
 }
@@ -354,16 +356,16 @@ QPair<bool, DebControlFile*> DebControlFile::fromFile(QString filePath)
     return qMakePair(true, result);
 }
 
-void DebControlFile::toFile(QString filePath, DebControlFile* data)
+void DebControlFile::toFile(QString filePath, DebControlFile data)
 {
     if (filePath.isEmpty())
         return;
 
-    if (data->getPackage().isEmpty() ||
-            data->getVersion().isEmpty() ||
-            data->getArchitecture().isEmpty() ||
-            data->getMaintainer().isEmpty() ||
-            data->getDescription().isEmpty())
+    if (data.getPackage().isEmpty() ||
+            data.getVersion().isEmpty() ||
+            data.getArchitecture().isEmpty() ||
+            data.getMaintainer().isEmpty() ||
+            data.getDescription().isEmpty())
         return;
 
     QFile file(filePath);
@@ -374,55 +376,55 @@ void DebControlFile::toFile(QString filePath, DebControlFile* data)
     QTextStream fileDataStream(&file);
     fileDataStream.setCodec("UTF-8");
 
-    fileDataStream<<QString("Package: %1\n").arg(data->getPackage());
-    fileDataStream<<QString("Version: %1\n").arg(data->getVersion());
-    fileDataStream<<QString("Architecture: %1\n").arg(data->getArchitecture());
-    fileDataStream<<QString("Maintainer: %1\n").arg(data->getMaintainer());
-    fileDataStream<<QString("Description: %1\n").arg(data->getDescription());
+    fileDataStream<<QString("Package: %1\n").arg(data.getPackage());
+    fileDataStream<<QString("Version: %1\n").arg(data.getVersion());
+    fileDataStream<<QString("Architecture: %1\n").arg(data.getArchitecture());
+    fileDataStream<<QString("Maintainer: %1\n").arg(data.getMaintainer());
+    fileDataStream<<QString("Description: %1\n").arg(data.getDescription());
 
-    if (!data->getSection().isEmpty())
-        fileDataStream<<QString("Section: %1\n").arg(data->getSection());
+    if (!data.getSection().isEmpty())
+        fileDataStream<<QString("Section: %1\n").arg(data.getSection());
 
-    if (data->getPackage() != Priority::None)
-        fileDataStream<<QString("Priority: %1\n").arg(PriorityToString[data->getPriority()]);
+    if (data.getPackage() != Priority::None)
+        fileDataStream<<QString("Priority: %1\n").arg(PriorityToString[data.getPriority()]);
 
-    fileDataStream<<QString("Essential: %1\n").arg(data->isEssential() ? "yes": "no");
+    fileDataStream<<QString("Essential: %1\n").arg(data.isEssential() ? "yes": "no");
 
-    if (!data->getSource().isEmpty())
-        fileDataStream<<QString("Source: %1\n").arg(data->getSource());
+    if (!data.getSource().isEmpty())
+        fileDataStream<<QString("Source: %1\n").arg(data.getSource());
 
-    if (!data->getDepends().isEmpty())
-        fileDataStream<<QString("Depends: %1\n").arg(Utils::libraryPackageToString(data->getDepends()));
+    if (!data.getDepends().isEmpty())
+        fileDataStream<<QString("Depends: %1\n").arg(Utils::libraryPackageToString(data.getDepends()));
 
-    if (!data->getPreDepends().isEmpty())
-        fileDataStream<<QString("Pre-Depends: %1\n").arg(Utils::libraryPackageToString(data->getPreDepends()));
+    if (!data.getPreDepends().isEmpty())
+        fileDataStream<<QString("Pre-Depends: %1\n").arg(Utils::libraryPackageToString(data.getPreDepends()));
 
-    if (!data->getRecommends().isEmpty())
-        fileDataStream<<QString("Recommends: %1\n").arg(Utils::libraryPackageToString(data->getRecommends()));
+    if (!data.getRecommends().isEmpty())
+        fileDataStream<<QString("Recommends: %1\n").arg(Utils::libraryPackageToString(data.getRecommends()));
 
-    if (!data->getSuggests().isEmpty())
-        fileDataStream<<QString("Suggests: %1\n").arg(Utils::libraryPackageToString(data->getSuggests()));
+    if (!data.getSuggests().isEmpty())
+        fileDataStream<<QString("Suggests: %1\n").arg(Utils::libraryPackageToString(data.getSuggests()));
 
-    if (!data->getBreaks().isEmpty())
-        fileDataStream<<QString("Breaks: %1\n").arg(Utils::libraryPackageToString(data->getBreaks()));
+    if (!data.getBreaks().isEmpty())
+        fileDataStream<<QString("Breaks: %1\n").arg(Utils::libraryPackageToString(data.getBreaks()));
 
-    if (!data->getConflicts().isEmpty())
-        fileDataStream<<QString("Conflicts: %1\n").arg(Utils::libraryPackageToString(data->getConflicts()));
+    if (!data.getConflicts().isEmpty())
+        fileDataStream<<QString("Conflicts: %1\n").arg(Utils::libraryPackageToString(data.getConflicts()));
 
-    if (!data->getReplaces().isEmpty())
-        fileDataStream<<QString("Replaces: %1\n").arg(Utils::libraryPackageToString(data->getReplaces()));
+    if (!data.getReplaces().isEmpty())
+        fileDataStream<<QString("Replaces: %1\n").arg(Utils::libraryPackageToString(data.getReplaces()));
 
-    if (!data->getProvides().isEmpty())
-        fileDataStream<<QString("Provides: %1\n").arg(Utils::libraryPackageToString(data->getProvides()));
+    if (!data.getProvides().isEmpty())
+        fileDataStream<<QString("Provides: %1\n").arg(Utils::libraryPackageToString(data.getProvides()));
 
-    if (!data->getBuiltUsing().isEmpty())
-        fileDataStream<<QString("Built-Using: %1\n").arg(Utils::libraryPackageToString(data->getBuiltUsing()));
+    if (!data.getBuiltUsing().isEmpty())
+        fileDataStream<<QString("Built-Using: %1\n").arg(Utils::libraryPackageToString(data.getBuiltUsing()));
 
-    if (data->getInstalledSize() != 0)
-        fileDataStream<<QString("Installed-Size: %1\n").arg(data->getInstalledSize());
+    if (data.getInstalledSize() != 0)
+        fileDataStream<<QString("Installed-Size: %1\n").arg(data.getInstalledSize());
 
-    if (!data->getHomepage().isEmpty())
-        fileDataStream<<QString("Homepage: %1\n").arg(data->getHomepage());
+    if (!data.getHomepage().isEmpty())
+        fileDataStream<<QString("Homepage: %1\n").arg(data.getHomepage());
 
     file.close();
 }

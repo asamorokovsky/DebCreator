@@ -74,7 +74,7 @@ public:
     static QList<LibraryPackage> getLibraryPackagesByFieldInString(QString field, QString searchString);
     static QList<LibraryPackage> getLibraryPackagesInString(QString searchString);
     static QPair<bool, DebControlFile*> fromFile(QString filePath);
-    static void toFile(QString filePath, DebControlFile *data);
+    static void toFile(QString filePath, DebControlFile data);
 
 private:
     // REQUIRED FIELDS

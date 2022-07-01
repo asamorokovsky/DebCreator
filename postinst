@@ -1,0 +1,124 @@
+#!/bin/sh
+
+if [ "$EUID" -ne 0 ]
+then
+    echo "Для конфигурирования БАЗОВОГО ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ СТО КТС-Р необходимы права супер-пользователя(\"sudo ./configure.sh\")"    
+    exit
+else
+    user=$(logname)
+    userHomeDir=$(eval echo ~$user)
+    bpoRootDir=$(pwd)
+
+    cd "$bpoRootDir"
+    cd ..
+    bpoRootDir=$(pwd)
+
+    echo "Установка разрешений для доступа к файлам."
+    chown -R root:root "$bpoRootDir"
+    chmod -R 755 "$bpoRootDir"
+    chmod -R a+x "$bpoRootDir"
+    mkdir "$bpoRootDir/bin/Data"
+
+    echo "Создание струткуры каталогов БАЗОВОГО ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ СТО КТС-Р."
+    mkdir "$bpoRootDir/bin/Data/AppData/"
+    chown -R $user:$user "$bpoRootDir/bin/Data/AppData/"
+    mkdir "$bpoRootDir/bin/Data/Bin/"
+    mkdir "$bpoRootDir/bin/Data/Calibration/"
+    chown -R $user:$user "$bpoRootDir/bin/Data/Calibration/"
+    mkdir "$bpoRootDir/bin/Data/Checks/"
+    mkdir "$bpoRootDir/bin/Data/Logs/"
+    chown -R $user:$user "$bpoRootDir/bin/Data/Logs/"
+    mkdir "$bpoRootDir/bin/Data/Sounds/"  
+
+    chmod -R a-x "$bpoRootDir/bin/Data/"
+    chmod a+rx "$bpoRootDir/bin/Data/"
+    chmod -R a+rx "$bpoRootDir/bin/Data/AppData/"
+    chmod a+rx "$bpoRootDir/bin/Data/Bin/"
+    chmod a+rx "$bpoRootDir/bin/Data/Calibration/"
+    chmod a+rx "$bpoRootDir/bin/Data/Checks/"
+    chmod -R a+rx "$bpoRootDir/bin/Data/Logs/"
+    chmod a+rx "$bpoRootDir/bin/Data/Sounds/"
+
+    chmod a-wx "$bpoRootDir/bin/qt.conf"
+    chmod a-wx "$bpoRootDir/bin/config.ini"
+    chmod a-wx "$bpoRootDir/bin/hardware_config.ini"
+    chmod a-wx "$bpoRootDir/bin/available_devices.ini"
+    chmod a-wx "$bpoRootDir/bin/CTO KTC-P.png"
+	chmod a-wrx "$bpoRootDir/bin/uninstall.sh"
+	chmod a-wrx "$bpoRootDir/bin/spo_uninstall.sh"
+	
+	chown root:root "$bpoRootDir/bin/config.ini"
+	chown root:root "$bpoRootDir/bin/hardware_config.ini"
+	chown root:root "$bpoRootDir/bin/available_devices.ini"
+	chown root:root "$bpoRootDir/bin/uninstall.sh"
+	chown root:root "$bpoRootDir/bin/spo_uninstall.sh"
+
+    chmod u+w "$bpoRootDir/bin/config.ini"
+    chmod u+w "$bpoRootDir/bin/hardware_config.ini"
+    chmod u+w "$bpoRootDir/bin/available_devices.ini"	
+	
+	chmod a+r "$bpoRootDir/bin/config.ini"
+    chmod a+r "$bpoRootDir/bin/hardware_config.ini"
+    chmod a+r "$bpoRootDir/bin/available_devices.ini"
+	chmod a+r "$bpoRootDir/bin/uninstall.sh"
+	chmod a+r "$bpoRootDir/bin/spo_uninstall.sh"
+	
+	chmod u+rx "$bpoRootDir/bin/uninstall.sh"
+	chmod u+rx "$bpoRootDir/bin/spo_uninstall.sh"
+	
+    chmod u+w "$bpoRootDir/bin/CTO KTC-P.png"
+
+    chmod a-x "$bpoRootDir/components.xml"
+    chmod a-x "$bpoRootDir/БПО СТО КТС-РTool.dat"
+    chmod a-x "$bpoRootDir/БПО СТО КТС-РTool.ini"
+    chmod a-x "$bpoRootDir/InstallationLog.txt"
+    chmod a-x "$bpoRootDir/installer.dat"
+    chmod a-x "$bpoRootDir/network.xml"
+
+    echo "export CTO_KTC_P_PATH=$bpoRootDir/bin/" >> "$userHomeDir/.bashrc"
+
+    gawk -i inplace '{ print } /BASE_DIR=/ { print "if ! test -x /usr/bin/qmake\nthen" }' ./*.sh
+    gawk -i inplace '{ print } /QT_QPA_PLATFORM_PLUGIN_PATH=/ { print "fi" }' ./*.sh
+
+    sed '$d' ./*.sh >> "Конфигурация БПО СТО КТС-Р.sh"
+    echo '"$BASE_DIR/bin/CTO KTC-P" "$@" "-configure"' >> "Конфигурация БПО СТО КТС-Р.sh"
+
+    chmod a-wx "$bpoRootDir/Конфигурация БПО СТО КТС-Р.sh"
+    chown root:root "$bpoRootDir/Конфигурация БПО СТО КТС-Р.sh"
+    chmod a+rx "$bpoRootDir/Конфигурация БПО СТО КТС-Р.sh"	
+
+
+    mv "$bpoRootDir/bin/calibration.c" "$bpoRootDir/bin/Data/Calibration/"
+    mv "$bpoRootDir/bin/calibration_vbs.c" "$bpoRootDir/bin/Data/Calibration/"
+
+    chown -R $user:$user "$bpoRootDir/bin/Data/Calibration/"
+    chmod -R a+r "$bpoRootDir/bin/Data/Calibration/"
+    chmod -R a-x "$bpoRootDir/bin/Data/Calibration/"
+    chmod a+x "$bpoRootDir/bin/Data/Calibration/"
+
+    echo "Создание ярлыка в \"Меню Пуск\" БАЗОВОГО ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ СТО КТС-Р." 
+
+    echo "[Desktop Entry]" > "$userHomeDir/.fly/startmenu/others/БПО CTO KTC-P.desktop"
+    echo "Encoding=UTF-8" >> "$userHomeDir/.fly/startmenu/others/БПО CTO KTC-P.desktop"
+    echo "Name=БПО СТО КТС-Р" >> "$userHomeDir/.fly/startmenu/others/БПО CTO KTC-P.desktop"
+    echo "Type=Application" >> "$userHomeDir/.fly/startmenu/others/БПО CTO KTC-P.desktop"
+    echo "Exec=\"$bpoRootDir/CTO KTC-P.sh\"" >> "$userHomeDir/.fly/startmenu/others/БПО CTO KTC-P.desktop"
+    echo "Icon=$bpoRootDir/bin/CTO KTC-P.png" >> "$userHomeDir/.fly/startmenu/others/БПО CTO KTC-P.desktop"
+    echo "Terminal=false" >> "$userHomeDir/.fly/startmenu/others/БПО CTO KTC-P.desktop"
+    echo "Version=1.0" >> "$userHomeDir/.fly/startmenu/others/БПО CTO KTC-P.desktop"
+    echo "Name[en_US]=БПО CTO KTC-P" >> "$userHomeDir/.fly/startmenu/others/БПО CTO KTC-P.desktop"
+
+    echo "Создание ярлыка на рабочсем столе БАЗОВОГО ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ СТО КТС-Р." 
+
+    echo "[Desktop Entry]" > "$userHomeDir/Desktop/БПО CTO KTC-P.desktop"
+    echo "Encoding=UTF-8" >> "$userHomeDir/Desktop/БПО CTO KTC-P.desktop"
+    echo "Name=БПО СТО КТС-Р" >> "$userHomeDir/Desktop/БПО CTO KTC-P.desktop"
+    echo "Type=Application" >> "$userHomeDir/Desktop/БПО CTO KTC-P.desktop"
+    echo "Exec=\"$bpoRootDir/CTO KTC-P.sh\"" >> "$userHomeDir/Desktop/БПО CTO KTC-P.desktop"
+    echo "Icon=$bpoRootDir/bin/CTO KTC-P.png" >> "$userHomeDir/Desktop/БПО CTO KTC-P.desktop"
+    echo "Terminal=false" >> "$userHomeDir/Desktop/БПО CTO KTC-P.desktop"
+    echo "Version=1.0" >> "$userHomeDir/Desktop/БПО CTO KTC-P.desktop"
+    echo "Name[en_US]=БПО CTO KTC-P" >> "$userHomeDir/Desktop/БПО CTO KTC-P.desktop"
+
+    echo "Конфигурирование БАЗОВОГО ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ СТО КТС-Р завершено!"
+fi

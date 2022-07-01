@@ -20,6 +20,8 @@ public:
 
     static QString libraryPackageToString(QList<LibraryPackage> list);
     static QString libraryPackageToString(LibraryPackage lib);
+
+    static QString buildDebianPackage(QString dirPath);
 };
 
 #endif // UTILS_H

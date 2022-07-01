@@ -1,0 +1,50 @@
+#!/bin/sh
+
+if [ "$EUID" -ne 0 ]
+then
+    echo "Для удаления БАЗОВОГО ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ СТО КТС-Р необходимы права супер-пользователя(\"sudo ./uninstall.sh\")"   
+    exit
+else
+    user=$(logname)
+    userHomeDir=$(eval echo ~$user)
+	bpoRootDir=$(su - $user -c 'echo $CTO_KTC_P_PATH')
+    
+	echo "Удаление БАЗОВОГО ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ СТО КТС-Р"   
+	echo -n "Продолжить? (Д/н) "
+
+	read answer
+	
+	case "$answer" in
+    Д|д|y|Y)
+        ;;
+    Н|н|n|N) 
+		echo "Удаление БАЗОВОГО ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ СТО КТС-Р отменено пользователем."
+        exit 0
+        ;;
+    *) 
+		echo "Удаление БАЗОВОГО ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ СТО КТС-Р отменено пользователем."
+		exit 0
+        ;;		
+	esac
+	
+	echo "Удаление переменных БАЗОВОГО ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ СТО КТС-Р из системы."
+	sed -i '/CTO_KTC_P_PATH/d' "$userHomeDir/.bashrc"
+    
+	cd "$bpoRootDir"
+    cd ..	
+    bpoRootDir=$(pwd)
+	echo "Удаление файлов БАЗОВОГО ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ СТО КТС-Р."
+	
+	$(rm -rf "$bpoRootDir")
+	
+	
+	echo "Удаление ярлыков БАЗОВОГО ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ СТО КТС-Р."	
+	$(rm -rf "$userHomeDir/Desktop/БПО CTO KTC-P.desktop")
+	$(rm -rf "$userHomeDir/Desktop/Конфигурация БПО СТО КТС-Р.desktop")
+	$(rm -rf "$userHomeDir/.fly/startmenu/others/БПО CTO KTC-P.desktop")
+	$(rm -rf "$userHomeDir/.fly/startmenu/others/Конфигурация БПО СТО КТС-Р.desktop")
+    	
+	echo "Удаление БАЗОВОГО ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ СТО КТС-Р завершено!"    
+fi
+
+ 

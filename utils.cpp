@@ -108,8 +108,12 @@ QString Utils::libraryPackageToString(QList<LibraryPackage> list)
     for (int currentIndex = 0; currentIndex < list.size(); currentIndex++) {
         LibraryPackage libPackage = list.at(currentIndex);
         QString strToInsert = libPackage.getName();
-        if (!libPackage.getVersion().isEmpty())
-            strToInsert.append(QString(" (%1)").arg(libPackage.getVersion()));
+        if (!libPackage.getVersion().isEmpty()) {
+            if (!libPackage.getVersion().startsWith(">="))
+                strToInsert.append(QString(" (>=%1)").arg(libPackage.getVersion()));
+            else
+                strToInsert.append(QString(" (%1)").arg(libPackage.getVersion()));
+        }
         if (currentIndex != list.size()-1)
             strToInsert.append(", ");
 
@@ -123,8 +127,33 @@ QString Utils::libraryPackageToString(LibraryPackage lib)
 {
     QString result = lib.getName();
 
-    if (!lib.getVersion().isEmpty())
-        result.append(QString(" (%1)").arg(lib.getVersion()));
+    if (!lib.getVersion().isEmpty()) {
+        if (!lib.getVersion().startsWith(">="))
+            result.append(QString(" (>=%1)").arg(lib.getVersion()));
+        else
+            result.append(QString(" (%1)").arg(lib.getVersion()));
+    }
 
     return result;
+}
+
+QString Utils::buildDebianPackage(QString dirPath)
+{
+    QProcess process;
+    QStringList args;
+    args.append("--build");
+    args.append(dirPath);
+
+    process.start("dpkg-deb", args);
+
+    process.waitForStarted();
+    process.waitForFinished();
+
+    QString error = QString(process.readAllStandardError());
+    if (!error.isEmpty())
+        return error;
+
+    QString output = QString(process.readAllStandardOutput());
+
+    return output;
 }

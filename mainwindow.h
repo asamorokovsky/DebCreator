@@ -21,11 +21,8 @@
 
 #include <QFileInfo>
 
-#include <QDebug>
-
 #include "debcontrolfile.h"
 #include "debpackage.h"
-
 #include "utils.h"
 
 class MainWindow : public QMainWindow
@@ -80,7 +77,6 @@ private:
     QLineEdit *secondTab_control_installedSizeLE;
     QLineEdit *secondTab_control_homepageLE;
 
-
     QPushButton *secondTab_selectControlFileBtn;
     QPushButton *secondTab_clearControlFileBtn;
     QPushButton *secondTab_backBtn;
@@ -92,24 +88,44 @@ private:
     QLineEdit *thirdTab_postinstFilePathLE;
     QLineEdit *thirdTab_prermFilePathLE;
     QLineEdit *thirdTab_postrmFilePathLE;
-    QLineEdit *thirdTab_menusFilePathLE;
+
+    QLineEdit *thirdTab_copyrightFilePathLE;
     QLineEdit *thirdTab_changelogFilePathLE;
+    QLineEdit *thirdTab_conffilesFilePathLE;
+    QLineEdit *thirdTab_dirsFilePathLE;
+    QLineEdit *thirdTab_docsFilePathLE;
+    QLineEdit *thirdTab_newsFilePathLE;
 
     QPushButton *thirdTab_preinstFileSelectBtn;
     QPushButton *thirdTab_postinstFileSelectBtn;
     QPushButton *thirdTab_prermFileSelectBtn;
     QPushButton *thirdTab_postrmFileSelectBtn;
-    QPushButton *thirdTab_menusFileSelectBtn;
+    QPushButton *thirdTab_copyrightFileSelectBtn;
     QPushButton *thirdTab_changelogFileSelectBtn;
+    QPushButton *thirdTab_conffilesFileSelectBtn;
+    QPushButton *thirdTab_dirsFileSelectBtn;
+    QPushButton *thirdTab_docsFileSelectBtn;
+    QPushButton *thirdTab_newsFileSelectBtn;
+
     QPushButton *thirdTab_preinstFileClearBtn;
     QPushButton *thirdTab_postinstFileClearBtn;
     QPushButton *thirdTab_prermFileClearBtn;
     QPushButton *thirdTab_postrmFileClearBtn;
-    QPushButton *thirdTab_menusFileClearBtn;
+    QPushButton *thirdTab_copyrightFileClearBtn;
     QPushButton *thirdTab_changelogFileClearBtn;
+    QPushButton *thirdTab_conffilesFileClearBtn;
+    QPushButton *thirdTab_dirsFileClearBtn;
+    QPushButton *thirdTab_docsFileClearBtn;
+    QPushButton *thirdTab_newsFileClearBtn;
 
     QPushButton *thirdTab_backBtn;
     QPushButton *thirdTab_nextBtn;
+
+    // Fourth tab widgets
+    QWidget *fourthTab_Widget;
+
+    QPushButton *fourthTab_backBtn;
+    QPushButton *fourthTab_quitBtn;
 
     void createUI();
     void connectUI();
@@ -133,15 +149,24 @@ private slots:
     void slot_thirdTab_postinstFileSelectBtn_clicked();
     void slot_thirdTab_prermFileSelectBtn_clicked();
     void slot_thirdTab_postrmFileSelectBtn_clicked();
-    void slot_thirdTab_menusFileSelectBtn_clicked();
+    void slot_thirdTab_copyrightFileSelectBtn_clicked();
     void slot_thirdTab_changelogFileSelectBtn_clicked();
+    void slot_thirdTab_conffilesFileSelectBtn_clicked();
+    void slot_thirdTab_dirsFileSelectBtn_clicked();
+    void slot_thirdTab_docsFileSelectBtn_clicked();
+    void slot_thirdTab_newsFileSelectBtn_clicked();
 
     void slot_thirdTab_preinstFileClearBtn_clicked();
     void slot_thirdTab_postinstFileClearBtn_clicked();
     void slot_thirdTab_prermFileClearBtn_clicked();
     void slot_thirdTab_postrmFileClearBtn_clicked();
-    void slot_thirdTab_menusFileClearBtn_clicked();
+    void slot_thirdTab_copyrightFileClearBtn_clicked();
     void slot_thirdTab_changelogFileClearBtn_clicked();
+    void slot_thirdTab_conffilesFileClearBtn_clicked();
+    void slot_thirdTab_dirsFileClearBtn_clicked();
+    void slot_thirdTab_docsFileClearBtn_clicked();
+    void slot_thirdTab_newsFileClearBtn_clicked();
+
 
     void slot_thirdTab_backBtn_clicked();
     void slot_thirdTab_nextBtn_clicked();

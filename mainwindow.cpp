@@ -120,7 +120,6 @@ void MainWindow::createUI()
         controlFileGBLayout->addWidget(new QLabel("Installed-Size:"), 18, 0, Qt::AlignLeft | Qt::AlignTop);
         controlFileGBLayout->addWidget(new QLabel("Homepage:"), 19, 0, Qt::AlignLeft | Qt::AlignTop);
 
-
         this->secondTab_control_packageLE = new QLineEdit(tr(""));
         this->secondTab_control_packageLE->setValidator(new QRegExpValidator(QRegExp("[a-zA-Z0-9-]+"), this));
         this->secondTab_control_versionLE = new QLineEdit(tr(""));
@@ -175,7 +174,6 @@ void MainWindow::createUI()
         controlFileGBLayout->addWidget(this->secondTab_control_installedSizeLE, 18, 1, Qt::AlignTop);
         controlFileGBLayout->addWidget(this->secondTab_control_homepageLE, 19, 1, Qt::AlignTop);
 
-
         scrollArea->setWidget(this->secondTab_controlFileGB);
 
         widgetLayout->addWidget(scrollArea);
@@ -197,13 +195,22 @@ void MainWindow::createUI()
         this->mainWidget->addTab(this->thirdTab_Widget, tr("3. DEB/other"));
 
         QVBoxLayout *widgetLayout = new QVBoxLayout(this->thirdTab_Widget);
-        QGridLayout *centralLayout = new QGridLayout();
+
+        QScrollArea *scrollArea = new QScrollArea();
+        scrollArea->setWidgetResizable(true);
+
+        QWidget *centralWidget = new QWidget();
+        QGridLayout *centralLayout = new QGridLayout(centralWidget);
         centralLayout->addWidget(new QLabel(tr("Select preinst script file:")), 0, 0);
         centralLayout->addWidget(new QLabel(tr("Select postinst script file:")), 2, 0);
         centralLayout->addWidget(new QLabel(tr("Select prerm script file:")), 4, 0);
         centralLayout->addWidget(new QLabel(tr("Select postrm script file:")), 6, 0);
-        centralLayout->addWidget(new QLabel(tr("Select menu file:")), 8, 0);
+        centralLayout->addWidget(new QLabel(tr("Select copyright file:")), 8, 0);
         centralLayout->addWidget(new QLabel(tr("Select changelog file:")), 10, 0);
+        centralLayout->addWidget(new QLabel(tr("Select conffiles file:")), 12, 0);
+        centralLayout->addWidget(new QLabel(tr("Select dirs file:")), 14, 0);
+        centralLayout->addWidget(new QLabel(tr("Select dosc file:")), 16, 0);
+        centralLayout->addWidget(new QLabel(tr("Select news file:")), 18, 0);
 
         this->thirdTab_preinstFilePathLE = new QLineEdit(tr(""));
         this->thirdTab_preinstFilePathLE->setReadOnly(true);
@@ -213,17 +220,29 @@ void MainWindow::createUI()
         this->thirdTab_prermFilePathLE->setReadOnly(true);
         this->thirdTab_postrmFilePathLE = new QLineEdit(tr(""));
         this->thirdTab_postrmFilePathLE->setReadOnly(true);
-        this->thirdTab_menusFilePathLE = new QLineEdit(tr(""));
-        this->thirdTab_menusFilePathLE->setReadOnly(true);
+        this->thirdTab_copyrightFilePathLE = new QLineEdit(tr(""));
+        this->thirdTab_copyrightFilePathLE->setReadOnly(true);
         this->thirdTab_changelogFilePathLE = new QLineEdit(tr(""));
         this->thirdTab_changelogFilePathLE->setReadOnly(true);
+        this->thirdTab_conffilesFilePathLE = new QLineEdit(tr(""));
+        this->thirdTab_conffilesFilePathLE->setReadOnly(true);
+        this->thirdTab_dirsFilePathLE = new QLineEdit(tr(""));
+        this->thirdTab_dirsFilePathLE->setReadOnly(true);
+        this->thirdTab_docsFilePathLE = new QLineEdit(tr(""));
+        this->thirdTab_docsFilePathLE->setReadOnly(true);
+        this->thirdTab_newsFilePathLE = new QLineEdit(tr(""));
+        this->thirdTab_newsFilePathLE->setReadOnly(true);
 
         centralLayout->addWidget(this->thirdTab_preinstFilePathLE, 1, 0);
         centralLayout->addWidget(this->thirdTab_postinstFilePathLE, 3, 0);
         centralLayout->addWidget(this->thirdTab_prermFilePathLE, 5, 0);
         centralLayout->addWidget(this->thirdTab_postrmFilePathLE, 7, 0);
-        centralLayout->addWidget(this->thirdTab_menusFilePathLE, 9, 0);
+        centralLayout->addWidget(this->thirdTab_copyrightFilePathLE, 9, 0);
         centralLayout->addWidget(this->thirdTab_changelogFilePathLE, 11, 0);
+        centralLayout->addWidget(this->thirdTab_conffilesFilePathLE, 13, 0);
+        centralLayout->addWidget(this->thirdTab_dirsFilePathLE, 15, 0);
+        centralLayout->addWidget(this->thirdTab_docsFilePathLE, 17, 0);
+        centralLayout->addWidget(this->thirdTab_newsFilePathLE, 19, 0);
 
         this->thirdTab_preinstFileSelectBtn = new QPushButton(tr(""));
         this->thirdTab_preinstFileSelectBtn->setIcon(QIcon(":/Icons/Res/Icon/add.ico"));
@@ -233,17 +252,29 @@ void MainWindow::createUI()
         this->thirdTab_prermFileSelectBtn->setIcon(QIcon(":/Icons/Res/Icon/add.ico"));
         this->thirdTab_postrmFileSelectBtn = new QPushButton(tr(""));
         this->thirdTab_postrmFileSelectBtn->setIcon(QIcon(":/Icons/Res/Icon/add.ico"));
-        this->thirdTab_menusFileSelectBtn = new QPushButton(tr(""));
-        this->thirdTab_menusFileSelectBtn->setIcon(QIcon(":/Icons/Res/Icon/add.ico"));
+        this->thirdTab_copyrightFileSelectBtn = new QPushButton(tr(""));
+        this->thirdTab_copyrightFileSelectBtn->setIcon(QIcon(":/Icons/Res/Icon/add.ico"));
         this->thirdTab_changelogFileSelectBtn = new QPushButton(tr(""));
         this->thirdTab_changelogFileSelectBtn->setIcon(QIcon(":/Icons/Res/Icon/add.ico"));
+        this->thirdTab_conffilesFileSelectBtn = new QPushButton(tr(""));
+        this->thirdTab_conffilesFileSelectBtn->setIcon(QIcon(":/Icons/Res/Icon/add.ico"));
+        this->thirdTab_dirsFileSelectBtn = new QPushButton(tr(""));
+        this->thirdTab_dirsFileSelectBtn->setIcon(QIcon(":/Icons/Res/Icon/add.ico"));
+        this->thirdTab_docsFileSelectBtn = new QPushButton(tr(""));
+        this->thirdTab_docsFileSelectBtn->setIcon(QIcon(":/Icons/Res/Icon/add.ico"));
+        this->thirdTab_newsFileSelectBtn = new QPushButton(tr(""));
+        this->thirdTab_newsFileSelectBtn->setIcon(QIcon(":/Icons/Res/Icon/add.ico"));
 
         centralLayout->addWidget(this->thirdTab_preinstFileSelectBtn, 1, 1);
         centralLayout->addWidget(this->thirdTab_postinstFileSelectBtn, 3, 1);
         centralLayout->addWidget(this->thirdTab_prermFileSelectBtn, 5, 1);
         centralLayout->addWidget(this->thirdTab_postrmFileSelectBtn, 7, 1);
-        centralLayout->addWidget(this->thirdTab_menusFileSelectBtn, 9, 1);
+        centralLayout->addWidget(this->thirdTab_copyrightFileSelectBtn, 9, 1);
         centralLayout->addWidget(this->thirdTab_changelogFileSelectBtn, 11, 1);
+        centralLayout->addWidget(this->thirdTab_conffilesFileSelectBtn, 13, 1);
+        centralLayout->addWidget(this->thirdTab_dirsFileSelectBtn, 15, 1);
+        centralLayout->addWidget(this->thirdTab_docsFileSelectBtn, 17, 1);
+        centralLayout->addWidget(this->thirdTab_newsFileSelectBtn, 19, 1);
 
         this->thirdTab_preinstFileClearBtn = new QPushButton(tr(""));
         this->thirdTab_preinstFileClearBtn->setIcon(QIcon(":/Icons/Res/Icon/close.ico"));
@@ -253,19 +284,32 @@ void MainWindow::createUI()
         this->thirdTab_prermFileClearBtn->setIcon(QIcon(":/Icons/Res/Icon/close.ico"));
         this->thirdTab_postrmFileClearBtn = new QPushButton(tr(""));
         this->thirdTab_postrmFileClearBtn->setIcon(QIcon(":/Icons/Res/Icon/close.ico"));
-        this->thirdTab_menusFileClearBtn = new QPushButton(tr(""));
-        this->thirdTab_menusFileClearBtn->setIcon(QIcon(":/Icons/Res/Icon/close.ico"));
+        this->thirdTab_copyrightFileClearBtn = new QPushButton(tr(""));
+        this->thirdTab_copyrightFileClearBtn->setIcon(QIcon(":/Icons/Res/Icon/close.ico"));
         this->thirdTab_changelogFileClearBtn = new QPushButton(tr(""));
         this->thirdTab_changelogFileClearBtn->setIcon(QIcon(":/Icons/Res/Icon/close.ico"));
+        this->thirdTab_conffilesFileClearBtn = new QPushButton(tr(""));
+        this->thirdTab_conffilesFileClearBtn->setIcon(QIcon(":/Icons/Res/Icon/close.ico"));
+        this->thirdTab_dirsFileClearBtn = new QPushButton(tr(""));
+        this->thirdTab_dirsFileClearBtn->setIcon(QIcon(":/Icons/Res/Icon/close.ico"));
+        this->thirdTab_docsFileClearBtn = new QPushButton(tr(""));
+        this->thirdTab_docsFileClearBtn->setIcon(QIcon(":/Icons/Res/Icon/close.ico"));
+        this->thirdTab_newsFileClearBtn = new QPushButton(tr(""));
+        this->thirdTab_newsFileClearBtn->setIcon(QIcon(":/Icons/Res/Icon/close.ico"));
 
         centralLayout->addWidget(this->thirdTab_preinstFileClearBtn, 1, 2);
         centralLayout->addWidget(this->thirdTab_postinstFileClearBtn, 3, 2);
         centralLayout->addWidget(this->thirdTab_prermFileClearBtn, 5, 2);
         centralLayout->addWidget(this->thirdTab_postrmFileClearBtn, 7, 2);
-        centralLayout->addWidget(this->thirdTab_menusFileClearBtn, 9, 2);
+        centralLayout->addWidget(this->thirdTab_copyrightFileClearBtn, 9, 2);
         centralLayout->addWidget(this->thirdTab_changelogFileClearBtn, 11, 2);
+        centralLayout->addWidget(this->thirdTab_conffilesFileClearBtn, 13, 2);
+        centralLayout->addWidget(this->thirdTab_dirsFileClearBtn, 15, 2);
+        centralLayout->addWidget(this->thirdTab_docsFileClearBtn, 17, 2);
+        centralLayout->addWidget(this->thirdTab_newsFileClearBtn, 19, 2);
 
-        widgetLayout->addLayout(centralLayout);
+        scrollArea->setWidget(centralWidget);
+        widgetLayout->addWidget(scrollArea);
 
         QHBoxLayout *controlButtonsLayout = new QHBoxLayout();
         controlButtonsLayout->setAlignment(Qt::AlignBottom);
@@ -303,15 +347,25 @@ void MainWindow::connectUI()
     connect(this->thirdTab_postinstFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_postinstFileSelectBtn_clicked);
     connect(this->thirdTab_prermFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_prermFileSelectBtn_clicked);
     connect(this->thirdTab_postrmFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_postrmFileSelectBtn_clicked);
-    connect(this->thirdTab_menusFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_menusFileSelectBtn_clicked);
+    connect(this->thirdTab_copyrightFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_copyrightFileSelectBtn_clicked);
     connect(this->thirdTab_changelogFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_changelogFileSelectBtn_clicked);
+    connect(this->thirdTab_conffilesFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_conffilesFileSelectBtn_clicked);
+    connect(this->thirdTab_dirsFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_dirsFileSelectBtn_clicked);
+    connect(this->thirdTab_docsFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_docsFileSelectBtn_clicked);
+    connect(this->thirdTab_newsFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_newsFileSelectBtn_clicked);
+
 
     connect(this->thirdTab_preinstFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_preinstFileClearBtn_clicked);
     connect(this->thirdTab_postinstFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_postinstFileClearBtn_clicked);
     connect(this->thirdTab_prermFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_prermFileClearBtn_clicked);
     connect(this->thirdTab_postrmFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_postrmFileClearBtn_clicked);
-    connect(this->thirdTab_menusFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_menusFileClearBtn_clicked);
+    connect(this->thirdTab_copyrightFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_copyrightFileClearBtn_clicked);
     connect(this->thirdTab_changelogFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_changelogFileClearBtn_clicked);
+    connect(this->thirdTab_conffilesFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_conffilesFileClearBtn_clicked);
+    connect(this->thirdTab_dirsFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_dirsFileClearBtn_clicked);
+    connect(this->thirdTab_docsFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_docsFileClearBtn_clicked);
+    connect(this->thirdTab_newsFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_newsFileClearBtn_clicked);
+
 
     connect(this->thirdTab_backBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_backBtn_clicked);
     connect(this->thirdTab_nextBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_nextBtn_clicked);
@@ -342,9 +396,7 @@ void MainWindow::slot_firstTab_additionalFileSelectBtn_clicked()
 
     QString files;
     for(int index = 0;index < additionalFiles.size(); index++) {
-        QFileInfo fi(additionalFiles.at(index));
-
-        files.append(fi.fileName());
+        files.append(additionalFiles.at(index));
         if (index != additionalFiles.size()-1)
             files.append("; ");
     }
@@ -366,27 +418,21 @@ void MainWindow::slot_firstTab_nextBtn_clicked()
     if (this->firstTab_filePath->text().trimmed().isEmpty() && this->firstTab_installationPathLE->text().trimmed().isEmpty())
         return;
 
+    ulong size = QFile(this->firstTab_filePath->text().trimmed()).size();
+
+    if (!this->firstTab_additionalFilesLE->text().trimmed().isEmpty()) {
+        foreach (QString currentFilePath, this->firstTab_additionalFilesLE->text().trimmed().split("; ")) {
+            size += QFile(currentFilePath).size();
+        }
+    }
+
+    this->secondTab_control_packageLE->setText(QFileInfo(this->firstTab_filePath->text().trimmed()).fileName());
+    this->secondTab_control_installedSizeLE->setText(QString::number(size));
+
+    this->secondTab_control_dependsTE->insertPlainText(Utils::libraryPackageToString(Utils::getDependnciesForElf(this->firstTab_filePath->text().trimmed())));
+
     this->mainWidget->setCurrentIndex(this->mainWidget->indexOf(this->secondTab_Widget));
 }
-/*
-// Second tab slots
-
-
-void MainWindow::slot_secondTab_backBtn_clicked()
-{
-    this->mainWidget->setCurrentIndex(this->mainWidget->indexOf(this->firstTab_Widget));
-}
-
-void MainWindow::slot_secondTab_nextBtn_clicked()
-{
-    if (this->secondTab_packageName->text().trimmed().isEmpty())
-        return;
-
-    //this->mainWidget->setCurrentIndex(this->mainWidget->indexOf(this->thirdTab_Widget));
-    getDependnciesForElf(this->firstTab_filePath->text().trimmed());
-
-}
-*/
 
 // Second tab slots
 void MainWindow::slot_secondTab_selectControlFileBtn_clicked()
@@ -404,7 +450,7 @@ void MainWindow::slot_secondTab_selectControlFileBtn_clicked()
 
         this->secondTab_control_packageLE->setText(controlFile->getPackage());
         this->secondTab_control_versionLE->setText(controlFile->getVersion());
-        //this->secondTab_control_priorityLE->setText(PriorityToString[controlFile->getPriority()]);
+        this->secondTab_control_priorityCB->setCurrentText(PriorityToString[controlFile->getPriority()]);
         this->secondTab_control_sectionLE->setText(controlFile->getSection());
         this->secondTab_control_maintainerLE->setText(controlFile->getMaintainer());
         this->secondTab_control_installedSizeLE->setText(QString::number(controlFile->getInstalledSize()));
@@ -482,13 +528,13 @@ void MainWindow::slot_thirdTab_postrmFileSelectBtn_clicked()
     this->thirdTab_postrmFilePathLE->setText(selectedFile);
 }
 
-void MainWindow::slot_thirdTab_menusFileSelectBtn_clicked()
+void MainWindow::slot_thirdTab_copyrightFileSelectBtn_clicked()
 {
     QString selectedFile = QFileDialog::getOpenFileName(this, tr("Select file"));
     if (selectedFile.isEmpty())
         return;
 
-    this->thirdTab_menusFilePathLE->setText(selectedFile);
+    this->thirdTab_copyrightFilePathLE->setText(selectedFile);
 }
 
 void MainWindow::slot_thirdTab_changelogFileSelectBtn_clicked()
@@ -498,6 +544,42 @@ void MainWindow::slot_thirdTab_changelogFileSelectBtn_clicked()
         return;
 
     this->thirdTab_changelogFilePathLE->setText(selectedFile);
+}
+
+void MainWindow::slot_thirdTab_conffilesFileSelectBtn_clicked()
+{
+    QString selectedFile = QFileDialog::getOpenFileName(this, tr("Select file"));
+    if (selectedFile.isEmpty())
+        return;
+
+    this->thirdTab_conffilesFilePathLE->setText(selectedFile);
+}
+
+void MainWindow::slot_thirdTab_dirsFileSelectBtn_clicked()
+{
+    QString selectedFile = QFileDialog::getOpenFileName(this, tr("Select file"));
+    if (selectedFile.isEmpty())
+        return;
+
+    this->thirdTab_dirsFilePathLE->setText(selectedFile);
+}
+
+void MainWindow::slot_thirdTab_docsFileSelectBtn_clicked()
+{
+    QString selectedFile = QFileDialog::getOpenFileName(this, tr("Select file"));
+    if (selectedFile.isEmpty())
+        return;
+
+    this->thirdTab_docsFilePathLE->setText(selectedFile);
+}
+
+void MainWindow::slot_thirdTab_newsFileSelectBtn_clicked()
+{
+    QString selectedFile = QFileDialog::getOpenFileName(this, tr("Select file"));
+    if (selectedFile.isEmpty())
+        return;
+
+    this->thirdTab_newsFilePathLE->setText(selectedFile);
 }
 
 void MainWindow::slot_thirdTab_preinstFileClearBtn_clicked()
@@ -520,14 +602,34 @@ void MainWindow::slot_thirdTab_postrmFileClearBtn_clicked()
     this->thirdTab_postrmFilePathLE->clear();
 }
 
-void MainWindow::slot_thirdTab_menusFileClearBtn_clicked()
+void MainWindow::slot_thirdTab_copyrightFileClearBtn_clicked()
 {
-    this->thirdTab_menusFilePathLE->clear();
+    this->thirdTab_copyrightFilePathLE->clear();
 }
 
 void MainWindow::slot_thirdTab_changelogFileClearBtn_clicked()
 {
     this->thirdTab_changelogFilePathLE->clear();
+}
+
+void MainWindow::slot_thirdTab_conffilesFileClearBtn_clicked()
+{
+    this->thirdTab_conffilesFilePathLE->clear();
+}
+
+void MainWindow::slot_thirdTab_dirsFileClearBtn_clicked()
+{
+    this->thirdTab_dirsFilePathLE->clear();
+}
+
+void MainWindow::slot_thirdTab_docsFileClearBtn_clicked()
+{
+    this->thirdTab_docsFilePathLE->clear();
+}
+
+void MainWindow::slot_thirdTab_newsFileClearBtn_clicked()
+{
+    this->thirdTab_newsFilePathLE->clear();
 }
 
 void MainWindow::slot_thirdTab_backBtn_clicked()
@@ -562,55 +664,24 @@ void MainWindow::slot_thirdTab_nextBtn_clicked()
     controlFile.setInstalledSize(this->secondTab_control_installedSizeLE->text().trimmed().toULong());
     controlFile.setHomepage(this->secondTab_control_homepageLE->text().trimmed());
 
-
-    if (controlFile.getPackage().isEmpty() || controlFile.getVersion().isEmpty() || controlFile.getArchitecture().isEmpty())
-        return;
-
     DebPackage package;
     package.setControlFileData(controlFile);
     package.setExecutableBinaryFilePath(this->firstTab_filePath->text().trimmed());
+    package.setAdditionalFilesPath(this->firstTab_additionalFilesLE->text().trimmed().split("; "));
     package.setInstallationPath(this->firstTab_installationPathLE->text().trimmed());
 
-    // Create package folder
-    if (!QDir().mkpath(package.getPackagePath()))
-        return; // Create packagePath error, exit.
+    package.setPreinstScriptPath(this->thirdTab_preinstFilePathLE->text().trimmed());
+    package.setPostinstScriptPath(this->thirdTab_postinstFilePathLE->text().trimmed());
+    package.setPrermScriptPath(this->thirdTab_prermFilePathLE->text().trimmed());
+    package.setPostrmScriptPath(this->thirdTab_postrmFilePathLE->text().trimmed());
 
-    if (package.getInstallationPath().isEmpty())
-        package.setInstallationPath(QString("/var/%1").arg(controlFile.getPackage())); // Installation path must not be empty!
+    package.setCopyrightPath(this->thirdTab_copyrightFilePathLE->text().trimmed());
+    package.setChangelogPath(this->thirdTab_changelogFilePathLE->text().trimmed());
+    package.setConffilesPath(this->thirdTab_conffilesFilePathLE->text().trimmed());
+    package.setDirsPath(this->thirdTab_dirsFilePathLE->text().trimmed());
+    package.setDocsPath(this->thirdTab_docsFilePathLE->text().trimmed());
+    package.setNewsPath(this->thirdTab_newsFilePathLE->text().trimmed());
 
-    if (!QDir().mkpath(QString("%1/%2").arg(package.getPackagePath(), package.getInstallationPath())))
-        return; // Create packagePath/installation error, exit.
-
-    if (package.getExecutableBinaryFilePath().isEmpty())
-        return; // Executable binary file is empty!
-
-    if (!QFile(package.getExecutableBinaryFilePath()).exists())
-        return; // Executable binary file does not exists!
-
-    // Copy executable binary file to packagePath/installation
-    if (!QFile::copy(package.getExecutableBinaryFilePath(), QString("%1/%2/%3").arg(package.getPackagePath(), package.getInstallationPath(), QFileInfo(package.getExecutableBinaryFilePath()).fileName())))
-        return; // Copy error
-
-    // Create DEBIAN dir
-    if (!QDir().mkpath(QString("%1/DEBIAN").arg(package.getPackagePath())))
-        return; // Create DEBIAN folder error, exit.
-
-    // Create compat file
-    QFile compatFile(QString("%1/DEBIAN/compat").arg(package.getPackagePath()));
-    if (!compatFile.open(QIODevice::WriteOnly))
-        return; // Cannot create DEBIAN/compat file.
-
-    QTextStream compatStram(&compatFile);
-    compatStram.setCodec("UTF-8");
-    compatStram<<QString::number(10);
-
-    compatFile.close();
-
-
-
-
-
-
-
+    package.createPackage();
 
 }
