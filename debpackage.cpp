@@ -188,7 +188,8 @@ void DebPackage::createPackage()
     // copy additional files to packagePath/installation
     {
         foreach (QString additionFilePath, this->getAdditionalFilesPath()) {
-            QFile::copy(additionFilePath, QString("%1/%2/%3").arg(this->getPackagePath(), this->getInstallationPath(), QFileInfo(additionFilePath).fileName()));
+            if (!additionFilePath.isEmpty())
+                QFile::copy(additionFilePath, QString("%1/%2/%3").arg(this->getPackagePath(), this->getInstallationPath(), QFileInfo(additionFilePath).fileName()));
         }
     }
 
@@ -221,22 +222,22 @@ void DebPackage::createPackage()
         if (!this->getPreinstScriptPath().isEmpty()) {
             QFile::copy(this->getPreinstScriptPath(), QString("%1/DEBIAN/preinst").arg(this->getPackagePath()));
             QFile::setPermissions(QString("%1/DEBIAN/preinst").arg(this->getPackagePath()), QFile::ReadOwner | QFile::ReadUser | QFile::ReadGroup | QFile::ReadOther |
-                                                                                            QFile::ExeOwner | QFile::ExeUser | QFile::ExeGroup | QFile::ExeOther);
+                                  QFile::ExeOwner | QFile::ExeUser | QFile::ExeGroup | QFile::ExeOther);
         }
         if (!this->getPostinstScriptPath().isEmpty()) {
             QFile::copy(this->getPostinstScriptPath(), QString("%1/DEBIAN/postinst").arg(this->getPackagePath()));
             QFile::setPermissions(QString("%1/DEBIAN/postinst").arg(this->getPackagePath()), QFile::ReadOwner | QFile::ReadUser | QFile::ReadGroup | QFile::ReadOther |
-                                                                                            QFile::ExeOwner | QFile::ExeUser | QFile::ExeGroup | QFile::ExeOther);
+                                  QFile::ExeOwner | QFile::ExeUser | QFile::ExeGroup | QFile::ExeOther);
         }
         if (!this->getPrermScriptPath().isEmpty()) {
             QFile::copy(this->getPrermScriptPath(), QString("%1/DEBIAN/prerm").arg(this->getPackagePath()));
             QFile::setPermissions(QString("%1/DEBIAN/prerm").arg(this->getPackagePath()), QFile::ReadOwner | QFile::ReadUser | QFile::ReadGroup | QFile::ReadOther |
-                                                                                            QFile::ExeOwner | QFile::ExeUser | QFile::ExeGroup | QFile::ExeOther);
+                                  QFile::ExeOwner | QFile::ExeUser | QFile::ExeGroup | QFile::ExeOther);
         }
         if (!this->getPostrmScriptPath().isEmpty()) {
             QFile::copy(this->getPostrmScriptPath(), QString("%1/DEBIAN/postrm").arg(this->getPackagePath()));
             QFile::setPermissions(QString("%1/DEBIAN/postrm").arg(this->getPackagePath()), QFile::ReadOwner | QFile::ReadUser | QFile::ReadGroup | QFile::ReadOther |
-                                                                                            QFile::ExeOwner | QFile::ExeUser | QFile::ExeGroup | QFile::ExeOther);
+                                  QFile::ExeOwner | QFile::ExeUser | QFile::ExeGroup | QFile::ExeOther);
         }
     }
 
@@ -255,7 +256,4 @@ void DebPackage::createPackage()
         if (!this->getNewsPath().isEmpty())
             QFile::copy(this->getNewsPath(), QString("%1/DEBIAN/news").arg(this->getPackagePath()));
     }
-
-    Utils::buildDebianPackage(this->getPackagePath());
-
 }

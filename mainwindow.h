@@ -124,6 +124,8 @@ private:
     // Fourth tab widgets
     QWidget *fourthTab_Widget;
 
+    QTextEdit *fourthTab_outputTE;
+
     QPushButton *fourthTab_backBtn;
     QPushButton *fourthTab_quitBtn;
 
@@ -132,6 +134,10 @@ private:
 
 private slots:
     // First tab slots
+    void slot_checkParametersForSecondTab();
+
+    void slot_firstTab_filePath_textChanged();
+    void slot_firstTab_installationPathLE_textChanged();
     void slot_firstTab_filePathSelectBtn_clicked();
     void slot_firstTab_additionalFileSelectBtn_clicked();
     void slot_firstTab_additionalFileClearBtn_clicked();
@@ -139,6 +145,14 @@ private slots:
     void slot_firstTab_nextBtn_clicked();
 
     // Second tab slots
+    void slot_checkParametersForThirdTab();
+
+    void slot_secondTab_control_packageLE_textChanged();
+    void slot_secondTab_control_versionLE_textChanged();
+    void slot_secondTab_control_architectureLE_textChanged();
+    void slot_secondTab_control_maintainerLE_textChanged();
+    void slot_secondTab_control_descriptionTE_textChanged();
+
     void slot_secondTab_selectControlFileBtn_clicked();
     void slot_secondTab_clearControlFileBtn_clicked();
     void slot_secondTab_backBtn_clicked();
@@ -170,6 +184,10 @@ private slots:
 
     void slot_thirdTab_backBtn_clicked();
     void slot_thirdTab_nextBtn_clicked();
+
+    // Fourth tab slots
+    void slot_fourthTab_backBtn_clicked();
+    void slot_fourthTab_quitBtn_clicked();
 };
 
 #endif // MAINWINDOW_H

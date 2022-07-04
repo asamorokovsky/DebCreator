@@ -19,6 +19,8 @@ void MainWindow::createUI()
     // Select executable file & additional files
     {
         this->firstTab_Widget = new QWidget();
+        this->mainWidget->addTab(this->firstTab_Widget, tr("1. Select file"));
+
         QVBoxLayout *widgetLayout = new QVBoxLayout(this->firstTab_Widget);
 
         QGridLayout *centralLayout = new QGridLayout();
@@ -59,14 +61,14 @@ void MainWindow::createUI()
         this->firstTab_quitBtn->setIcon(QIcon(":/Icons/Res/Icon/close.ico"));
         this->firstTab_nextBtn = new QPushButton(tr("Next"));
         this->firstTab_nextBtn->setIcon(QIcon(":/Icons/Res/Icon/arrow_right.ico"));
+        this->firstTab_nextBtn->setEnabled(false);
         controlButtonsLayout->addWidget(this->firstTab_quitBtn, 0, Qt::AlignLeft);
         controlButtonsLayout->addWidget(this->firstTab_nextBtn, 0, Qt::AlignRight);
 
         widgetLayout->addLayout(controlButtonsLayout);
 
-        this->mainWidget->addTab(this->firstTab_Widget, tr("1. Select file"));
-    }
 
+    }
     // DEB/control tab
     {
         this->secondTab_Widget = new QWidget();
@@ -77,7 +79,7 @@ void MainWindow::createUI()
         headerLayout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         headerLayout->addWidget(new QLabel(tr("Select an existing file:")), 0, 0);
         this->secondTab_controlFile = new QLineEdit("");
-        secondTab_controlFile->setReadOnly(true);
+        this->secondTab_controlFile->setReadOnly(true);
 
         headerLayout->addWidget(this->secondTab_controlFile, 1, 0);
 
@@ -184,6 +186,7 @@ void MainWindow::createUI()
         this->secondTab_backBtn->setIcon(QIcon(":/Icons/Res/Icon/arrow_left.ico"));
         this->secondTab_nextBtn = new QPushButton(tr("Next"));
         this->secondTab_nextBtn->setIcon(QIcon(":/Icons/Res/Icon/arrow_right.ico"));
+        this->secondTab_nextBtn->setEnabled(false);
         controlButtonsLayout->addWidget(this->secondTab_backBtn, 0, Qt::AlignLeft);
         controlButtonsLayout->addWidget(this->secondTab_nextBtn, 0, Qt::AlignRight);
 
@@ -322,58 +325,128 @@ void MainWindow::createUI()
 
         widgetLayout->addLayout(controlButtonsLayout);
     }
+    // Result tab
+    {
+        this->fourthTab_Widget = new QWidget();
+        this->mainWidget->addTab(this->fourthTab_Widget, tr("4. Result"));
+
+        QVBoxLayout *widgetLayout = new QVBoxLayout(this->fourthTab_Widget);
+
+        QGridLayout *centralLayout = new QGridLayout();
+        centralLayout->setAlignment(Qt::AlignTop);
+        centralLayout->addWidget(new QLabel(tr("Output:")), 0, 0);
+        this->fourthTab_outputTE = new QTextEdit(tr(""));
+        this->fourthTab_outputTE->setReadOnly(true);
+        centralLayout->addWidget(this->fourthTab_outputTE, 1, 0);
+
+        widgetLayout->addLayout(centralLayout);
+
+        QHBoxLayout *controlButtonsLayout = new QHBoxLayout();
+        controlButtonsLayout->setAlignment(Qt::AlignBottom);
+
+        this->fourthTab_backBtn = new QPushButton(tr("Back"));
+        this->fourthTab_backBtn->setIcon(QIcon(":/Icons/Res/Icon/arrow_left.ico"));
+
+        this->fourthTab_quitBtn = new QPushButton(tr("Quit"));
+        this->fourthTab_quitBtn->setIcon(QIcon(":/Icons/Res/Icon/close.ico"));
+
+
+        controlButtonsLayout->addWidget(this->fourthTab_backBtn, 0, Qt::AlignLeft);
+        controlButtonsLayout->addWidget(this->fourthTab_quitBtn, 0, Qt::AlignRight);
+
+        widgetLayout->addLayout(controlButtonsLayout);
+    }
+    this->mainWidget->setTabEnabled(0, true);
+    this->mainWidget->setTabEnabled(1, false);
+    this->mainWidget->setTabEnabled(2, false);
+    this->mainWidget->setTabEnabled(3, false);
     this->setCentralWidget(this->mainWidget);
 }
 
 void MainWindow::connectUI()
 {
     // Connect first tab widgets to their slots
-    connect(this->firstTab_filePathSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_firstTab_filePathSelectBtn_clicked);
-    connect(this->firstTab_additionalFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_firstTab_additionalFileSelectBtn_clicked);
-    connect(this->firstTab_additionalFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_firstTab_additionalFileClearBtn_clicked);
-    connect(this->firstTab_quitBtn, &QPushButton::clicked, this, &MainWindow::slot_firstTab_quitBtn_clicked);
-    connect(this->firstTab_nextBtn, &QPushButton::clicked, this, &MainWindow::slot_firstTab_nextBtn_clicked);
+    {
+        connect(this->firstTab_filePath, &QLineEdit::textChanged, this, &MainWindow::slot_firstTab_filePath_textChanged);
+        connect(this->firstTab_installationPathLE, &QLineEdit::textChanged, this, &MainWindow::slot_firstTab_installationPathLE_textChanged);
 
+        connect(this->firstTab_filePathSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_firstTab_filePathSelectBtn_clicked);
+        connect(this->firstTab_additionalFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_firstTab_additionalFileSelectBtn_clicked);
+        connect(this->firstTab_additionalFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_firstTab_additionalFileClearBtn_clicked);
+        connect(this->firstTab_quitBtn, &QPushButton::clicked, this, &MainWindow::slot_firstTab_quitBtn_clicked);
+        connect(this->firstTab_nextBtn, &QPushButton::clicked, this, &MainWindow::slot_firstTab_nextBtn_clicked);
+    }
 
     // Connect second tab widgets to their slots
-    connect(this->secondTab_selectControlFileBtn, &QPushButton::clicked, this, &MainWindow::slot_secondTab_selectControlFileBtn_clicked);
-    connect(this->secondTab_clearControlFileBtn, &QPushButton::clicked, this, &MainWindow::slot_secondTab_clearControlFileBtn_clicked);
-    connect(this->secondTab_backBtn, &QPushButton::clicked, this, &MainWindow::slot_secondTab_backBtn_clicked);
-    connect(this->secondTab_nextBtn, &QPushButton::clicked, this, &MainWindow::slot_secondTab_nextBtn_clicked);
+    {
+        connect(this->secondTab_control_packageLE, &QLineEdit::textChanged, this, &MainWindow::slot_secondTab_control_packageLE_textChanged);
+        connect(this->secondTab_control_versionLE, &QLineEdit::textChanged, this, &MainWindow::slot_secondTab_control_versionLE_textChanged);
+        connect(this->secondTab_control_architectureLE, &QLineEdit::textChanged, this, &MainWindow::slot_secondTab_control_architectureLE_textChanged);
+        connect(this->secondTab_control_maintainerLE, &QLineEdit::textChanged, this, &MainWindow::slot_secondTab_control_maintainerLE_textChanged);
+        connect(this->secondTab_control_descriptionTE, &QTextEdit::textChanged, this, &MainWindow::slot_secondTab_control_descriptionTE_textChanged);
 
-    // Connect third tab widgets to thier slots
+        connect(this->secondTab_selectControlFileBtn, &QPushButton::clicked, this, &MainWindow::slot_secondTab_selectControlFileBtn_clicked);
+        connect(this->secondTab_clearControlFileBtn, &QPushButton::clicked, this, &MainWindow::slot_secondTab_clearControlFileBtn_clicked);
+        connect(this->secondTab_backBtn, &QPushButton::clicked, this, &MainWindow::slot_secondTab_backBtn_clicked);
+        connect(this->secondTab_nextBtn, &QPushButton::clicked, this, &MainWindow::slot_secondTab_nextBtn_clicked);
+    }
 
-    connect(this->thirdTab_preinstFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_preinstFileSelectBtn_clicked);
-    connect(this->thirdTab_postinstFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_postinstFileSelectBtn_clicked);
-    connect(this->thirdTab_prermFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_prermFileSelectBtn_clicked);
-    connect(this->thirdTab_postrmFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_postrmFileSelectBtn_clicked);
-    connect(this->thirdTab_copyrightFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_copyrightFileSelectBtn_clicked);
-    connect(this->thirdTab_changelogFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_changelogFileSelectBtn_clicked);
-    connect(this->thirdTab_conffilesFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_conffilesFileSelectBtn_clicked);
-    connect(this->thirdTab_dirsFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_dirsFileSelectBtn_clicked);
-    connect(this->thirdTab_docsFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_docsFileSelectBtn_clicked);
-    connect(this->thirdTab_newsFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_newsFileSelectBtn_clicked);
-
-
-    connect(this->thirdTab_preinstFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_preinstFileClearBtn_clicked);
-    connect(this->thirdTab_postinstFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_postinstFileClearBtn_clicked);
-    connect(this->thirdTab_prermFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_prermFileClearBtn_clicked);
-    connect(this->thirdTab_postrmFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_postrmFileClearBtn_clicked);
-    connect(this->thirdTab_copyrightFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_copyrightFileClearBtn_clicked);
-    connect(this->thirdTab_changelogFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_changelogFileClearBtn_clicked);
-    connect(this->thirdTab_conffilesFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_conffilesFileClearBtn_clicked);
-    connect(this->thirdTab_dirsFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_dirsFileClearBtn_clicked);
-    connect(this->thirdTab_docsFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_docsFileClearBtn_clicked);
-    connect(this->thirdTab_newsFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_newsFileClearBtn_clicked);
+    // Connect third tab widgets to their slots
+    {
+        connect(this->thirdTab_preinstFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_preinstFileSelectBtn_clicked);
+        connect(this->thirdTab_postinstFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_postinstFileSelectBtn_clicked);
+        connect(this->thirdTab_prermFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_prermFileSelectBtn_clicked);
+        connect(this->thirdTab_postrmFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_postrmFileSelectBtn_clicked);
+        connect(this->thirdTab_copyrightFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_copyrightFileSelectBtn_clicked);
+        connect(this->thirdTab_changelogFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_changelogFileSelectBtn_clicked);
+        connect(this->thirdTab_conffilesFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_conffilesFileSelectBtn_clicked);
+        connect(this->thirdTab_dirsFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_dirsFileSelectBtn_clicked);
+        connect(this->thirdTab_docsFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_docsFileSelectBtn_clicked);
+        connect(this->thirdTab_newsFileSelectBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_newsFileSelectBtn_clicked);
 
 
-    connect(this->thirdTab_backBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_backBtn_clicked);
-    connect(this->thirdTab_nextBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_nextBtn_clicked);
+        connect(this->thirdTab_preinstFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_preinstFileClearBtn_clicked);
+        connect(this->thirdTab_postinstFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_postinstFileClearBtn_clicked);
+        connect(this->thirdTab_prermFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_prermFileClearBtn_clicked);
+        connect(this->thirdTab_postrmFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_postrmFileClearBtn_clicked);
+        connect(this->thirdTab_copyrightFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_copyrightFileClearBtn_clicked);
+        connect(this->thirdTab_changelogFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_changelogFileClearBtn_clicked);
+        connect(this->thirdTab_conffilesFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_conffilesFileClearBtn_clicked);
+        connect(this->thirdTab_dirsFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_dirsFileClearBtn_clicked);
+        connect(this->thirdTab_docsFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_docsFileClearBtn_clicked);
+        connect(this->thirdTab_newsFileClearBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_newsFileClearBtn_clicked);
+
+
+        connect(this->thirdTab_backBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_backBtn_clicked);
+        connect(this->thirdTab_nextBtn, &QPushButton::clicked, this, &MainWindow::slot_thirdTab_nextBtn_clicked);
+    }
+
+    // Connect fourth tab widgets to their slots
+    {
+        connect(this->fourthTab_backBtn, &QPushButton::clicked, this, &MainWindow::slot_fourthTab_backBtn_clicked);
+        connect(this->fourthTab_quitBtn, &QPushButton::clicked, this, &MainWindow::slot_fourthTab_quitBtn_clicked);
+    }
 }
 
 // Private slots
 
 // First tab slots
+void MainWindow::slot_checkParametersForSecondTab()
+{
+    bool value = !this->firstTab_filePath->text().trimmed().isEmpty() && !this->firstTab_installationPathLE->text().trimmed().isEmpty() ? true : false;
+    this->firstTab_nextBtn->setEnabled(value);    ;
+}
+
+void MainWindow::slot_firstTab_filePath_textChanged()
+{
+    slot_checkParametersForSecondTab();
+}
+
+void MainWindow::slot_firstTab_installationPathLE_textChanged()
+{
+    slot_checkParametersForSecondTab();
+}
+
 void MainWindow::slot_firstTab_filePathSelectBtn_clicked()
 {
     QString selectedFile = QFileDialog::getOpenFileName(this, tr("Select file"));
@@ -418,6 +491,9 @@ void MainWindow::slot_firstTab_nextBtn_clicked()
     if (this->firstTab_filePath->text().trimmed().isEmpty() && this->firstTab_installationPathLE->text().trimmed().isEmpty())
         return;
 
+    this->mainWidget->setTabEnabled(0, false);
+    this->mainWidget->setTabEnabled(1, true);
+
     ulong size = QFile(this->firstTab_filePath->text().trimmed()).size();
 
     if (!this->firstTab_additionalFilesLE->text().trimmed().isEmpty()) {
@@ -435,6 +511,40 @@ void MainWindow::slot_firstTab_nextBtn_clicked()
 }
 
 // Second tab slots
+void MainWindow::slot_checkParametersForThirdTab()
+{
+    this->secondTab_nextBtn->setEnabled(!this->secondTab_control_packageLE->text().trimmed().isEmpty() &&
+                                        !this->secondTab_control_versionLE->text().trimmed().isEmpty() &&
+                                        !this->secondTab_control_architectureLE->text().trimmed().isEmpty() &&
+                                        !this->secondTab_control_maintainerLE->text().trimmed().isEmpty() &&
+                                        !this->secondTab_control_descriptionTE->toPlainText().trimmed().isEmpty() ? true : false);
+}
+
+void MainWindow::slot_secondTab_control_packageLE_textChanged()
+{
+    slot_checkParametersForThirdTab();
+}
+
+void MainWindow::slot_secondTab_control_versionLE_textChanged()
+{
+    slot_checkParametersForThirdTab();
+}
+
+void MainWindow::slot_secondTab_control_architectureLE_textChanged()
+{
+    slot_checkParametersForThirdTab();
+}
+
+void MainWindow::slot_secondTab_control_maintainerLE_textChanged()
+{
+    slot_checkParametersForThirdTab();
+}
+
+void MainWindow::slot_secondTab_control_descriptionTE_textChanged()
+{
+    slot_checkParametersForThirdTab();
+}
+
 void MainWindow::slot_secondTab_selectControlFileBtn_clicked()
 {
     QString filter = "control";
@@ -478,6 +588,9 @@ void MainWindow::slot_secondTab_clearControlFileBtn_clicked()
 
 void MainWindow::slot_secondTab_backBtn_clicked()
 {
+    this->mainWidget->setTabEnabled(0, true);
+    this->mainWidget->setTabEnabled(1, false);
+    slot_checkParametersForSecondTab();
     this->mainWidget->setCurrentIndex(this->mainWidget->indexOf(this->firstTab_Widget));
 }
 
@@ -487,6 +600,9 @@ void MainWindow::slot_secondTab_nextBtn_clicked()
         return;
     if (this->secondTab_control_versionLE->text().trimmed().isEmpty())
         return;
+
+    this->mainWidget->setTabEnabled(1, false);
+    this->mainWidget->setTabEnabled(2, true);
 
     this->mainWidget->setCurrentIndex(this->mainWidget->indexOf(this->thirdTab_Widget));
 }
@@ -634,6 +750,9 @@ void MainWindow::slot_thirdTab_newsFileClearBtn_clicked()
 
 void MainWindow::slot_thirdTab_backBtn_clicked()
 {
+    this->mainWidget->setTabEnabled(1, true);
+    this->mainWidget->setTabEnabled(2, false);
+    slot_checkParametersForThirdTab();
     this->mainWidget->setCurrentIndex(this->mainWidget->indexOf(this->secondTab_Widget));
 }
 
@@ -684,4 +803,23 @@ void MainWindow::slot_thirdTab_nextBtn_clicked()
 
     package.createPackage();
 
+    this->fourthTab_outputTE->clear();
+    this->fourthTab_outputTE->insertPlainText(Utils::buildDebianPackage(package.getPackagePath()));
+
+    this->mainWidget->setTabEnabled(2, false);
+    this->mainWidget->setTabEnabled(3, true);
+    this->mainWidget->setCurrentIndex(this->mainWidget->indexOf(this->fourthTab_Widget));
+}
+
+void MainWindow::slot_fourthTab_backBtn_clicked()
+{
+    this->mainWidget->setTabEnabled(2, true);
+    this->mainWidget->setTabEnabled(3, false);
+
+    this->mainWidget->setCurrentIndex(this->mainWidget->indexOf(this->thirdTab_Widget));
+}
+
+void MainWindow::slot_fourthTab_quitBtn_clicked()
+{
+    close();
 }
